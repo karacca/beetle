@@ -1,0 +1,34 @@
+<resources>
+    <!-- common -->
+    <string name="azure_description">Azure DevOps</string>
+    <string name="github_description">GitHub</string>
+    <string name="gitlab_description">GitLab</string>
+
+    <!-- confirmation snackbar -->
+    <string name="confirmation_title">Did you just shake your phone?</string>
+    <string name="confirmation_content">Tap here to give feedback</string>
+
+    <!-- success snackbar -->
+    <string name="success_title">Issue created with id <b>#%1$d</b></string>
+    <string name="success_content">Tap here to see issue</string>
+
+    <!-- error snackbar -->
+    <string name="error_title">There was a problem</string>
+    <string name="error_content">Please check agent configuration</string>
+
+    <!-- beetle activity -->
+    <string name="beetle_title">Create Issue</string>
+    <string name="beetle_issue_title">Title</string>
+    <string name="beetle_assignee_title">Assignees</string>
+    <string name="beetle_label_title">Labels</string>
+    <string name="beetle_issue_description_hint">Describe Issue</string>
+    <string name="beetle_issue_title_warning">Please give a title</string>
+
+    <!-- notification -->
+    <string name="notification_channel_id">beetle</string>
+    <string name="notification_channel_name">Beetle</string>
+    <string name="notification_channel_description">Bug report</string>
+    <string name="success_notification_title">Issue created with id #%1$d</string>
+    <string name="success_notification_content">Tap here to see issue</string>
+
+</resources>

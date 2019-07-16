@@ -1,0 +1,5 @@
+<resources>
+    <style name="BeetleStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/white</item>
+    </style>
+</resources>

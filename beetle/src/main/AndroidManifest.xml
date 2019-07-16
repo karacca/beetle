@@ -1,0 +1,9 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.karacce.beetle">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application>
+        <activity android:name=".ui.BeetleActivity" android:theme="@style/BeetleStyle"/>
+    </application>
+
+</manifest>
