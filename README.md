@@ -1,4 +1,5 @@
 <img src="assets/banner.png">
+
 Shake to create Bug Report on GitHub, GitLab and Azure DevOps!
 
 [![](https://jitpack.io/v/karacce/Beetle.svg)](https://jitpack.io/#karacce/Beetle)
