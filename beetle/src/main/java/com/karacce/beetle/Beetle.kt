@@ -8,10 +8,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
-import android.os.Bundle
 import android.os.Handler
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
@@ -37,21 +35,16 @@ import okhttp3.Credentials
  * @date: 2019-07-06
  */
 
-class Beetle(private val agent: Agent, context: Context): ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListener {
+class Beetle(context: Context, private val agent: Agent): ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListener {
+
+    enum class Sensitivity(value: Int) { LIGHT(11), MEDIUM(13), HARD(15) }
 
     //region companion
 
     companion object {
-        const val ACTION_START      = "beetle.start"
-        const val ACTION_SUBMIT     = "beetle.submit"
-        const val ACTION_SHAKE      = "beetle.shake"
-        const val ACTION_SHOW       = "beetle.show"
-
-        const val ARG_RESULT        = "beetle.result"
-        const val ARG_URL           = "beetle.url"
-
+        
         private fun with(@NonNull app: Application, @NonNull agent: Agent): Beetle {
-            val beetle = Beetle(agent, app.applicationContext)
+            val beetle = Beetle(app.applicationContext, agent)
             app.registerActivityLifecycleCallbacks(Lifecycle(beetle))
             return beetle
         }
@@ -96,7 +89,7 @@ class Beetle(private val agent: Agent, context: Context): ShakeDetector.Listener
             if (intent == null) { return }
 
             when(intent.action) {
-                ACTION_START -> {
+                Constants.ACTION_START -> {
                     snackbar?.dismiss()
                     Handler().postDelayed({
                         activity?.let { activity ->
@@ -107,16 +100,11 @@ class Beetle(private val agent: Agent, context: Context): ShakeDetector.Listener
 
                 }
 
-                ACTION_SUBMIT -> {
-                    if (intent.hasExtra(ARG_RESULT)) {
-                        submit(Gson().fromJson(intent.getStringExtra(ARG_RESULT), Result::class.java))
+                Constants.ACTION_SUBMIT -> {
+                    if (intent.hasExtra(Constants.ARG_RESULT)) {
+                        submit(Gson().fromJson(intent.getStringExtra(Constants.ARG_RESULT), Result::class.java))
                     }
                 }
-
-                ACTION_SHAKE -> {
-                    shake.testShake()
-                }
-
             }
         }
     }
@@ -124,9 +112,8 @@ class Beetle(private val agent: Agent, context: Context): ShakeDetector.Listener
     init {
         fetchUsers(); fetchLabels()
         LocalBroadcastManager.getInstance(context).registerReceiver(receiver, IntentFilter().apply {
-            addAction(ACTION_START)
-            addAction(ACTION_SUBMIT)
-            addAction(ACTION_SHAKE)
+            addAction(Constants.ACTION_START)
+            addAction(Constants.ACTION_SUBMIT)
         })
     }
 
@@ -223,14 +210,6 @@ class Beetle(private val agent: Agent, context: Context): ShakeDetector.Listener
         if (activity != null) {
             snackbar = BeetleSnackbar.error(activity!!)
             snackbar?.show()
-        }
-    }
-
-    private fun showUrl(url: String) {
-        if (activity != null) {
-            activity!!.startActivity(Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse(url)
-            })
         }
     }
 

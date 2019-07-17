@@ -27,10 +27,6 @@ class Shake(private val listener: ShakeDetector.Listener): ShakeDetector.Listene
         detector.stop()
     }
 
-    fun testShake() {
-        onShake()
-    }
-
     override fun onShake() {
         if ((System.currentTimeMillis() >= lastShakeTime + coolDown)) {
             lastShakeTime = System.currentTimeMillis()

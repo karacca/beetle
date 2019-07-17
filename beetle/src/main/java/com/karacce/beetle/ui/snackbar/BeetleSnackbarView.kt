@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.material.snackbar.ContentViewCallback
 import com.karacce.beetle.Beetle
+import com.karacce.beetle.Constants
 import com.karacce.beetle.R
 import com.karacce.beetle.data.Agent
 import com.karacce.beetle.ext.dp
@@ -37,7 +38,7 @@ class BeetleSnackbarView @JvmOverloads constructor(
         icon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_beetle))
 
         setOnClickListener {
-            LocalBroadcastManager.getInstance(context).sendBroadcast(Intent(Beetle.ACTION_START))
+            LocalBroadcastManager.getInstance(context).sendBroadcast(Intent(Constants.ACTION_START))
         }
     }
 
@@ -57,8 +58,8 @@ class BeetleSnackbarView @JvmOverloads constructor(
         )
 
         setOnClickListener {
-            LocalBroadcastManager.getInstance(context).sendBroadcast(Intent(Beetle.ACTION_SHOW)
-                .apply { putExtras(Bundle().apply { putString(Beetle.ARG_URL, url) }) })
+            LocalBroadcastManager.getInstance(context).sendBroadcast(Intent(Constants.ACTION_SHOW)
+                .apply { putExtras(Bundle().apply { putString(Constants.ARG_URL, url) }) })
         }
     }
 
