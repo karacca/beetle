@@ -182,6 +182,25 @@
             </LinearLayout>
 
             <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="@color/gray200"
+                android:visibility="visible"
+                tools:visibility="visible"/>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/appVersion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:hint="@string/beetle_issue_app_version_hint"
+                android:background="@null"
+                android:textCursorDrawable="@null"
+                android:fontFamily="@font/rubik_regular"
+                android:textColor="@color/gray900"
+                android:textColorHint="@color/gray600"
+                android:textSize="16sp" />
+            <View
                 android:id="@+id/labelDivider"
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"

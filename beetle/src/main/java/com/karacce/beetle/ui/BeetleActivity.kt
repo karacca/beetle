@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
-import com.karacce.beetle.Beetle
 import com.karacce.beetle.Constants
 import com.karacce.beetle.R
 import com.karacce.beetle.data.Label
@@ -23,12 +22,13 @@ import com.karacce.beetle.data.remote.Result
 import com.karacce.beetle.ui.adapter.CellAdapter
 import kotlinx.android.synthetic.main.activity_beetle.*
 
+
 /**
  * @user: omerkaraca
  * @date: 2019-07-06
  */
 
-class BeetleActivity: AppCompatActivity() {
+class BeetleActivity : AppCompatActivity() {
 
     class IntentBuilder(private val context: Context) {
         private val bundle = Bundle()
@@ -129,8 +129,15 @@ class BeetleActivity: AppCompatActivity() {
             return
         }
 
+        if (appVersion.text.isNullOrEmpty()) {
+            showError(R.string.beetle_issue_app_version_warning)
+            return
+        }
+
+        var description = issueDescription.text?.toString()
+        description += getDeviceInfo()
         val result = Result(issueTitle.text.toString(),
-            issueDescription.text?.toString(),
+            description,
             if (users.any { it.selected }) users.filter { it.selected } else null,
             if (labels.any { it.selected }) labels.filter { it.selected } else null,
             if (includeAttachment) attachment?.path else null)
@@ -173,6 +180,19 @@ class BeetleActivity: AppCompatActivity() {
         labelRecyclerView.adapter = labelAdapter
         labelLayout.visibility = View.VISIBLE
         labelDivider.visibility = View.VISIBLE
+    }
+
+    private fun getDeviceInfo(): String {
+        val width = resources.displayMetrics.widthPixels
+        val height = resources.displayMetrics.heightPixels
+        val dpi = resources.displayMetrics.density * 160f
+        return "\n\n\n### Device Information\n" +
+                "- Model : ${Build.MODEL}\n" +
+                "- Manufacture : ${Build.MANUFACTURER}\n" +
+                "- SDK Version : ${Build.VERSION.SDK_INT}\n" +
+                "- Client Version : ${appVersion.text.toString()}\n" +
+                "- Resolution : $width x $height\n" +
+                "- Density : $dpi dpi"
     }
 
 }

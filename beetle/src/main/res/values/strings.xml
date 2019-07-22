@@ -22,7 +22,9 @@
     <string name="beetle_assignee_title">Assignees</string>
     <string name="beetle_label_title">Labels</string>
     <string name="beetle_issue_description_hint">Describe Issue</string>
+    <string name="beetle_issue_app_version_hint">Provide app version</string>
     <string name="beetle_issue_title_warning">Please give a title</string>
+    <string name="beetle_issue_app_version_warning">Please provide an app version</string>
 
     <!-- notification -->
     <string name="notification_channel_id">beetle</string>
