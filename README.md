@@ -3,6 +3,7 @@
 Shake to create Bug Report on GitHub, GitLab and Azure DevOps!
 
 [![](https://jitpack.io/v/karacce/Beetle.svg)](https://jitpack.io/#karacce/Beetle)
+[![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
 
 # Screenshots
 <img src="assets/showcase.png">
