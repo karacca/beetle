@@ -11,8 +11,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        beetle =(application as App).beetle
-        beetle.setActivity(this)
-        beetle.onShake()
+
+
+        // Programmatically shake for those who can't shake the emulator
+        //beetle =(application as App).beetle
+        //beetle.setActivity(this)
+        //beetle.onShake()
     }
 }
