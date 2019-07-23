@@ -42,6 +42,8 @@ class Beetle(context: Context, private val agent: Agent): ShakeDetector.Listener
     //region companion
 
     companion object {
+
+        const val ACTION_SHAKE = "beetle.shake"
         
         private fun with(@NonNull app: Application, @NonNull agent: Agent): Beetle {
             val beetle = Beetle(app.applicationContext, agent)
@@ -105,6 +107,10 @@ class Beetle(context: Context, private val agent: Agent): ShakeDetector.Listener
                         submit(Gson().fromJson(intent.getStringExtra(Constants.ARG_RESULT), Result::class.java))
                     }
                 }
+
+                ACTION_SHAKE -> {
+                    shake.onShake()
+                }
             }
         }
     }
@@ -114,6 +120,7 @@ class Beetle(context: Context, private val agent: Agent): ShakeDetector.Listener
         LocalBroadcastManager.getInstance(context).registerReceiver(receiver, IntentFilter().apply {
             addAction(Constants.ACTION_START)
             addAction(Constants.ACTION_SUBMIT)
+            addAction(ACTION_SHAKE)
         })
     }
 

@@ -20,6 +20,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:src="@drawable/ic_back"
             android:background="?attr/selectableItemBackgroundBorderless"/>
 
@@ -31,6 +32,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
 
             android:text="@string/beetle_title"
             android:textSize="18sp"
@@ -45,6 +47,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:src="@drawable/ic_send"
             android:background="?attr/selectableItemBackgroundBorderless"/>
 
@@ -56,6 +59,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/send"
             android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:src="@drawable/ic_attachment_selected"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:visibility="gone"
@@ -182,10 +186,11 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/labelDivider"
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
                 android:background="@color/gray200"
-                android:visibility="visible"
+                android:visibility="gone"
                 tools:visibility="visible"/>
 
             <androidx.appcompat.widget.AppCompatEditText
@@ -201,11 +206,11 @@
                 android:textColorHint="@color/gray600"
                 android:textSize="16sp" />
             <View
-                android:id="@+id/labelDivider"
+                android:id="@+id/appVersionDivider"
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
                 android:background="@color/gray200"
-                android:visibility="gone"
+                android:visibility="visible"
                 tools:visibility="visible"/>
 
             <androidx.appcompat.widget.AppCompatEditText
@@ -225,6 +230,5 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
