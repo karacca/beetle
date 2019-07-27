@@ -37,8 +37,6 @@ import okhttp3.Credentials
 
 class Beetle(context: Context, private val agent: Agent): ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListener {
 
-    enum class Sensitivity(value: Int) { LIGHT(11), MEDIUM(13), HARD(15) }
-
     //region companion
 
     companion object {
