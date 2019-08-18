@@ -16,7 +16,7 @@ Beetle allow your QA team to easily create issues on __GitHub__, __GitLab__ and 
 * Adds current screenshot as Attachment. (GitLab, Azure DevOps)
 * Assign issues to related users
 * Add Labels (GitHub, GitLab)
-* (Coming Soon) Include device info in issue description
+* Device information includes to the end of issue description automatically
 
 # Installation & Usage
 **1.** Add it in your root build.gradle file.
