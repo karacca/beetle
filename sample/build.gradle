@@ -6,7 +6,7 @@ android {
 
 
     defaultConfig {
-        applicationId "com.tayfuncesur.sample"
+        applicationId "com.karacca.sample"
         minSdkVersion 16
         targetSdkVersion 29
         versionCode 1

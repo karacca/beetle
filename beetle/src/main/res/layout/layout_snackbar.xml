@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.karacce.beetle.ui.snackbar.BeetleSnackbarView
+<com.karacca.beetle.ui.snackbar.BeetleSnackbarView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:padding="8dp"
     android:layout_width="match_parent"

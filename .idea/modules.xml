@@ -3,7 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Beetle.iml" filepath="$PROJECT_DIR$/.idea/Beetle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/beetle/Beetle-beetle.iml" filepath="$PROJECT_DIR$/beetle/Beetle-beetle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sample/Beetle-sample.iml" filepath="$PROJECT_DIR$/sample/Beetle-sample.iml" />
       <module fileurl="file://$PROJECT_DIR$/beetle/beetle.iml" filepath="$PROJECT_DIR$/beetle/beetle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/karacca-Beetle.iml" filepath="$PROJECT_DIR$/karacca-Beetle.iml" />
       <module fileurl="file://$PROJECT_DIR$/sample/sample.iml" filepath="$PROJECT_DIR$/sample/sample.iml" />
     </modules>
   </component>
