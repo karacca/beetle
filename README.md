@@ -2,7 +2,7 @@
 
 Shake to create Bug Report on GitHub, GitLab and Azure DevOps!
 
-[![](https://jitpack.io/v/karacce/Beetle.svg)](https://jitpack.io/#karacce/Beetle)
+[![](https://jitpack.io/v/karacca/Beetle.svg)](https://jitpack.io/#karacca/Beetle)
 [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
 
 # Screenshots
@@ -31,7 +31,7 @@ allprojects {
 **2.** Add the dependency
 ```groovy
 dependencies {
-	  implementation 'com.github.karacce:Beetle:{latest-version}'
+	  implementation 'com.github.karacca:Beetle:{latest-version}'
 }
 ```
 **3.** Initialize Beetle in `Application` file
@@ -42,10 +42,10 @@ class SampleApplication: Application() {
         super.onCreate()
         
         /** Initialize with Azure DevOps **/
-        Beetle.azure(this, "karacce", "Beetle", "karacce@gmail.com", "token")
+        Beetle.azure(this, "karacca", "Beetle", "karacca@gmail.com", "token")
         
         /** Initialize with GitHub **/
-        Beetle.github(this, "karacce", "Beetle", "token")
+        Beetle.github(this, "karacca", "Beetle", "token")
         
         /** Initialize with GitLab **/
         Beetle.gitlab(this, 12899898, "token")
