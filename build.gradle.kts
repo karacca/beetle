@@ -6,6 +6,7 @@ buildscript {
     extra.apply {
         set("coreKtxVersion", "1.8.0")
         set("appCompatVersion", "1.4.2")
+        set("materialVersion", "1.6.1")
     }
 
     repositories {

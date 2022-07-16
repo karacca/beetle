@@ -1,0 +1,4 @@
+<resources>
+
+    <style name="Theme.Beetle" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
+</resources>

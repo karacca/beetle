@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.karacca.beetle"/>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.karacca.beetle">
+
+    <application>
+        <activity
+            android:name=".ui.ReportActivity"
+            android:theme="@style/Theme.Beetle" />
+    </application>
+</manifest>

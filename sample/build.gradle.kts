@@ -43,4 +43,5 @@ dependencies {
     implementation(project(":beetle"))
     implementation("androidx.core:core-ktx:${rootProject.extra.get("coreKtxVersion")}")
     implementation("androidx.appcompat:appcompat:${rootProject.extra.get("appCompatVersion")}")
+    implementation("com.google.android.material:material:${rootProject.extra.get("materialVersion")}")
 }

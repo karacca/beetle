@@ -1,0 +1,13 @@
+<resources>
+    <string name="confirmation">Do you want to report a bug ?</string>
+    <string name="confirmation_positive">Yes</string>
+    <string name="send_feedback">Send Feedback</string>
+    <string name="title">Title: </string>
+    <string name="title_hint">Something got wrong</string>
+    <string name="assignees">Assignees: </string>
+    <string name="labels">Labels: </string>
+    <string name="screenshot">Screenshot</string>
+    <string name="screenshot_edit">Highlight or hide info</string>
+    <string name="system_logs">System Logs</string>
+    <string name="view">View</string>
+</resources>
