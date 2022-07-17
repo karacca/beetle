@@ -1,5 +1,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -131,96 +132,119 @@
         android:inputType="text"
         android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
         android:textColor="?attr/colorOnSurface"
-        app:layout_constraintBottom_toTopOf="@id/layout_screenshot"
+        app:layout_constraintBottom_toTopOf="@id/card_view_screenshot"
         app:layout_constraintTop_toBottomOf="@id/view_labels_divider" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_screenshot"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_view_screenshot"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_margin="16dp"
-        android:background="@drawable/bg_payload"
-        app:layout_constraintBottom_toTopOf="@id/layout_logs">
+        app:layout_constraintBottom_toTopOf="@id/card_view_logs">
 
-        <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/checkbox_screenshot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_screenshot"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toTopOf="@id/layout_logs">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/text_view_screenshot"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/screenshot"
-            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
-            android:textColor="?attr/colorOnSurface"
-            app:layout_constraintBottom_toTopOf="@id/text_view_edit_screenshot"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/checkbox_screenshot"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed" />
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/checkbox_screenshot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/text_view_edit_screenshot"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/screenshot_edit"
-            android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
-            android:textColor="?attr/colorOnSurface"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/checkbox_screenshot"
-            app:layout_constraintTop_toBottomOf="@id/text_view_screenshot"
-            app:layout_constraintVertical_chainStyle="packed" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_screenshot"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/screenshot"
+                android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                android:textColor="?attr/colorOnSurface"
+                app:layout_constraintBottom_toTopOf="@id/text_view_edit_screenshot"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/checkbox_screenshot"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_edit_screenshot"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/screenshot_edit"
+                android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                android:textColor="?attr/colorOnSurface"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/checkbox_screenshot"
+                app:layout_constraintTop_toBottomOf="@id/text_view_screenshot"
+                app:layout_constraintVertical_chainStyle="packed" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_logs"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_view_screenshot"
+                android:layout_width="96dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/avatars" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_view_logs"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_margin="16dp"
-        android:background="@drawable/bg_payload"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/checkbox_logs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_logs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/text_view_logs"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/system_logs"
-            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
-            android:textColor="?attr/colorOnSurface"
-            app:layout_constraintBottom_toTopOf="@id/text_view_view_logs"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/checkbox_logs"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed" />
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/checkbox_logs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/text_view_view_logs"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/view"
-            android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
-            android:textColor="?attr/colorOnSurface"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/checkbox_logs"
-            app:layout_constraintTop_toBottomOf="@id/text_view_logs"
-            app:layout_constraintVertical_chainStyle="packed" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_logs"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/system_logs"
+                android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                android:textColor="?attr/colorOnSurface"
+                app:layout_constraintBottom_toTopOf="@id/text_view_view_logs"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/checkbox_logs"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_view_logs"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                android:textColor="?attr/colorOnSurface"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/checkbox_logs"
+                app:layout_constraintTop_toBottomOf="@id/text_view_logs"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier_inputs"
