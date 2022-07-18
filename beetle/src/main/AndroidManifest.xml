@@ -6,5 +6,8 @@
         <activity
             android:name=".ui.ReportActivity"
             android:theme="@style/Theme.Beetle" />
+        <activity
+            android:name=".ui.EditActivity"
+            android:theme="@style/Theme.Beetle" />
     </application>
 </manifest>

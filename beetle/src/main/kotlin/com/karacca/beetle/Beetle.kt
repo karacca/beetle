@@ -3,6 +3,7 @@ package com.karacca.beetle
 import android.app.Application
 import android.content.Intent
 import android.net.Uri
+import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
@@ -35,17 +36,21 @@ class Beetle private constructor(application: Application) : ShakeDetector.Liste
 
     private fun showConfirmation() {
         activity?.findViewById<View>(android.R.id.content)?.let {
-            Snackbar.make(
+            val snackBar = Snackbar.make(
                 it,
                 it.context.getString(R.string.confirmation),
                 Snackbar.LENGTH_SHORT
-            ).setAction(it.context.getString(R.string.confirmation_positive)) {
-                val task = CollectDataTask(activity!!, this)
-                task.execute(BitmapUtils.capture(activity!!.window.decorView.rootView))
+            )
 
-//                val context = activity ?: return@setAction
-//                context.startActivity(Intent(context, ReportActivity::class.java))
-            }.show()
+            snackBar.setAction(it.context.getString(R.string.confirmation_positive)) {
+                snackBar.dismiss()
+                Handler().postDelayed({
+                    val task = CollectDataTask(activity!!, this)
+                    task.execute(BitmapUtils.capture(activity!!.window.decorView.rootView))
+                }, 250)
+            }
+
+            snackBar.show()
         }
     }
 
