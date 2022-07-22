@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         Handler().postDelayed({
-            Beetle.getInstance(this.application).onShake()
+            Beetle.onShake()
         }, 200)
     }
 }

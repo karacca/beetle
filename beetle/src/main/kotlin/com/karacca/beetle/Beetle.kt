@@ -1,28 +1,60 @@
 package com.karacca.beetle
 
 import android.app.Application
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
+import com.karacca.beetle.network.GitHubRepository
 import com.karacca.beetle.ui.ReportActivity
 import com.karacca.beetle.utils.*
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import org.bouncycastle.util.io.pem.PemReader
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.security.KeyFactory
+import java.security.PrivateKey
+import java.security.spec.PKCS8EncodedKeySpec
 
 /**
  * @author karacca
  * @date 12.07.2022
  */
 
-class Beetle private constructor(application: Application) : ShakeDetector.Listener,
-    CollectDataTask.OnCollectDataTaskListener {
+object Beetle : ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListener {
+
+    private var initialized = false
 
     private var activity: AppCompatActivity? = null
     private val shake = Shake(this)
 
-    init {
+    private lateinit var gitHubRepository: GitHubRepository
+
+    fun init(
+        application: Application,
+        organization: String,
+        repository: String
+    ) {
         application.registerActivityLifecycleCallbacks(LifecycleHandler(this))
+        gitHubRepository = GitHubRepository(getPrivateKey(application), organization, repository)
+        initialized = true
+
+        fetchSomething()
+    }
+
+    override fun onShake() {
+        showConfirmation()
+    }
+
+    override fun onDataReady(data: Uri?) {
+        val context = activity ?: return
+        val intent = Intent(context, ReportActivity::class.java)
+        intent.putExtra(ReportActivity.ARG_SCREENSHOT, data)
+        context.startActivity(intent)
     }
 
     internal fun setActivity(activity: AppCompatActivity?) {
@@ -54,26 +86,25 @@ class Beetle private constructor(application: Application) : ShakeDetector.Liste
         }
     }
 
-    override fun onShake() {
-        showConfirmation()
-    }
-
-    override fun onDataReady(data: Uri?) {
-        val context = activity ?: return
-        val intent = Intent(context, ReportActivity::class.java)
-        intent.putExtra(ReportActivity.ARG_SCREENSHOT, data)
-        context.startActivity(intent)
-    }
-
-    companion object {
-
-        @Volatile
-        private var INSTANCE: Beetle? = null
-
-        fun getInstance(application: Application): Beetle {
-            return INSTANCE ?: synchronized(this) {
-                INSTANCE ?: Beetle(application).also { INSTANCE = it }
+    private fun fetchSomething() {
+        MainScope().launch {
+            try {
+                val repositoryInstallation = gitHubRepository.getRepositoryInstallation()
+                val a = 0
+            } catch (e: Exception) {
+                val a = 0
             }
         }
+    }
+
+    private fun getPrivateKey(context: Context): PrivateKey {
+        val file = context.assets.open("beetle.pem")
+        val inputStreamReader = InputStreamReader(file)
+        val readerBufferedFile = BufferedReader(inputStreamReader)
+        val reader = PemReader(readerBufferedFile)
+        val privateKeyPem = reader.readPemObject()
+
+        val keyFactory = KeyFactory.getInstance("RSA")
+        return keyFactory.generatePrivate(PKCS8EncodedKeySpec(privateKeyPem.content))
     }
 }

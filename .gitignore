@@ -209,3 +209,5 @@ fabric.properties
 ### AndroidStudio Patch ###
 
 !/gradle/wrapper/gradle-wrapper.jar
+
+beetle/src/main/assets/beetle.pem
