@@ -2,12 +2,15 @@ package com.karacca.beetle.network
 
 import com.google.gson.Gson
 import com.karacca.beetle.BuildConfig
+import com.karacca.beetle.network.model.AccessToken
+import com.karacca.beetle.network.model.Collaborator
 import io.jsonwebtoken.Jwts
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.security.PrivateKey
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -21,6 +24,7 @@ internal class GitHubRepository(
     private val repo: String
 ) {
 
+    private var accessToken: AccessToken? = null
     private val service: GitHubService = Retrofit.Builder()
         .client(
             OkHttpClient.Builder()
@@ -34,8 +38,33 @@ internal class GitHubRepository(
         .addConverterFactory(GsonConverterFactory.create(Gson()))
         .build().create(GitHubService::class.java)
 
-    suspend fun getRepositoryInstallation(): Int {
+    suspend fun getCollaborators(): List<Collaborator> {
+        return service.getCollaborators(getAccessToken(), org, repo)
+    }
+
+    private suspend fun getRepositoryInstallation(): Int {
         return service.getRepositoryInstallation(getJWTokenHeader(), org, repo).id!!
+    }
+
+    private suspend fun createAccessToken(installationId: Int): AccessToken {
+        return service.createAccessToken(getJWTokenHeader(), installationId).also {
+            this.accessToken = it
+        }
+    }
+
+    private suspend fun getAccessToken(): String {
+        val token = if (
+            accessToken?.token != null &&
+            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault()).apply {
+                timeZone = TimeZone.getTimeZone("UTC")
+            }.parse(accessToken!!.token!!)!! > Date()
+        ) {
+            accessToken!!.token!!
+        } else {
+            createAccessToken(getRepositoryInstallation()).token!!
+        }
+
+        return "token $token"
     }
 
     private fun getJWTokenHeader(): String {

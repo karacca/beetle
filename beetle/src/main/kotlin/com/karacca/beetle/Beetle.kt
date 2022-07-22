@@ -11,8 +11,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.karacca.beetle.network.GitHubRepository
 import com.karacca.beetle.ui.ReportActivity
 import com.karacca.beetle.utils.*
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 import org.bouncycastle.util.io.pem.PemReader
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -42,8 +40,6 @@ object Beetle : ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListene
         application.registerActivityLifecycleCallbacks(LifecycleHandler(this))
         gitHubRepository = GitHubRepository(getPrivateKey(application), organization, repository)
         initialized = true
-
-        fetchSomething()
     }
 
     override fun onShake() {
@@ -83,17 +79,6 @@ object Beetle : ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListene
             }
 
             snackBar.show()
-        }
-    }
-
-    private fun fetchSomething() {
-        MainScope().launch {
-            try {
-                val repositoryInstallation = gitHubRepository.getRepositoryInstallation()
-                val a = 0
-            } catch (e: Exception) {
-                val a = 0
-            }
         }
     }
 

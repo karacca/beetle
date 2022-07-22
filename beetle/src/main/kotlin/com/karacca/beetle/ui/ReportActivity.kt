@@ -72,10 +72,6 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
         descriptionEditText.addTextChangedListener(this)
     }
 
-    companion object {
-        const val ARG_SCREENSHOT = "screenshot"
-    }
-
     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -84,5 +80,9 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
         val isTitleMissing = titleEditText.text.isNullOrEmpty()
         val isDescriptionMissing = descriptionEditText.text.isNullOrEmpty()
         toolbar.menu[0].isEnabled = !isTitleMissing && !isDescriptionMissing
+    }
+
+    companion object {
+        const val ARG_SCREENSHOT = "screenshot"
     }
 }
