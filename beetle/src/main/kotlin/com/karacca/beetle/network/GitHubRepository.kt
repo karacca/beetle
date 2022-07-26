@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.karacca.beetle.BuildConfig
 import com.karacca.beetle.network.model.AccessToken
 import com.karacca.beetle.network.model.Collaborator
+import com.karacca.beetle.network.model.Label
 import io.jsonwebtoken.Jwts
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -39,7 +40,11 @@ internal class GitHubRepository(
         .build().create(GitHubService::class.java)
 
     suspend fun getCollaborators(): List<Collaborator> {
-        return service.getCollaborators(getAccessToken(), org, repo)
+        return service.getCollaborators(getAccessTokenHeader(), org, repo)
+    }
+
+    suspend fun getLabels(): List<Label> {
+        return service.getLabels(getAccessTokenHeader(), org, repo)
     }
 
     private suspend fun getRepositoryInstallation(): Int {
@@ -52,12 +57,12 @@ internal class GitHubRepository(
         }
     }
 
-    private suspend fun getAccessToken(): String {
+    private suspend fun getAccessTokenHeader(): String {
         val token = if (
             accessToken?.token != null &&
             SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault()).apply {
                 timeZone = TimeZone.getTimeZone("UTC")
-            }.parse(accessToken!!.token!!)!! > Date()
+            }.parse(accessToken!!.expiresAt!!)!! > Date()
         ) {
             accessToken!!.token!!
         } else {

@@ -27,10 +27,11 @@ object Beetle : ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListene
 
     private var initialized = false
 
+    private lateinit var organization: String
+    private lateinit var repository: String
+
     private var activity: AppCompatActivity? = null
     private val shake = Shake(this)
-
-    private lateinit var gitHubRepository: GitHubRepository
 
     fun init(
         application: Application,
@@ -38,7 +39,8 @@ object Beetle : ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListene
         repository: String
     ) {
         application.registerActivityLifecycleCallbacks(LifecycleHandler(this))
-        gitHubRepository = GitHubRepository(getPrivateKey(application), organization, repository)
+        this.organization = organization
+        this.repository = repository
         initialized = true
     }
 
@@ -50,6 +52,8 @@ object Beetle : ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListene
         val context = activity ?: return
         val intent = Intent(context, ReportActivity::class.java)
         intent.putExtra(ReportActivity.ARG_SCREENSHOT, data)
+        intent.putExtra(ReportActivity.ARG_ORGANIZATION, organization)
+        intent.putExtra(ReportActivity.ARG_REPOSITORY, repository)
         context.startActivity(intent)
     }
 
@@ -80,16 +84,5 @@ object Beetle : ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListene
 
             snackBar.show()
         }
-    }
-
-    private fun getPrivateKey(context: Context): PrivateKey {
-        val file = context.assets.open("beetle.pem")
-        val inputStreamReader = InputStreamReader(file)
-        val readerBufferedFile = BufferedReader(inputStreamReader)
-        val reader = PemReader(readerBufferedFile)
-        val privateKeyPem = reader.readPemObject()
-
-        val keyFactory = KeyFactory.getInstance("RSA")
-        return keyFactory.generatePrivate(PKCS8EncodedKeySpec(privateKeyPem.content))
     }
 }

@@ -10,10 +10,21 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.get
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 import com.karacca.beetle.R
+import com.karacca.beetle.network.GitHubRepository
+import com.karacca.beetle.network.model.Collaborator
+import com.karacca.beetle.network.model.Label
+import kotlinx.coroutines.launch
+import org.bouncycastle.util.io.pem.PemReader
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.security.KeyFactory
+import java.security.PrivateKey
+import java.security.spec.PKCS8EncodedKeySpec
 
 /**
  * @author karacca
@@ -30,6 +41,8 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
     private lateinit var logsCardView: MaterialCardView
     private lateinit var titleEditText: TextInputEditText
     private lateinit var descriptionEditText: TextInputEditText
+
+    private lateinit var gitHubRepository: GitHubRepository
 
     private val openEditActivity = registerForActivityResult(
         object : ActivityResultContract<Uri, Uri>() {
@@ -54,6 +67,15 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
         setContentView(R.layout.activity_report)
 
         screenshot = intent.extras!!.getParcelable(ARG_SCREENSHOT)!!
+        val organization = intent.extras!!.getString(ARG_ORGANIZATION)!!
+        val repository = intent.extras!!.getString(ARG_REPOSITORY)!!
+
+        gitHubRepository = GitHubRepository(getPrivateKey(application), organization, repository)
+
+        lifecycleScope.launch {
+            setCollaborators(gitHubRepository.getCollaborators())
+            setLabels(gitHubRepository.getLabels())
+        }
 
         toolbar = findViewById(R.id.toolbar)
         imageView = findViewById(R.id.image_view_screenshot)
@@ -82,7 +104,28 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
         toolbar.menu[0].isEnabled = !isTitleMissing && !isDescriptionMissing
     }
 
+    private fun getPrivateKey(context: Context): PrivateKey {
+        val file = context.assets.open("beetle.pem")
+        val inputStreamReader = InputStreamReader(file)
+        val readerBufferedFile = BufferedReader(inputStreamReader)
+        val reader = PemReader(readerBufferedFile)
+        val privateKeyPem = reader.readPemObject()
+
+        val keyFactory = KeyFactory.getInstance("RSA")
+        return keyFactory.generatePrivate(PKCS8EncodedKeySpec(privateKeyPem.content))
+    }
+
+    private fun setCollaborators(collaborators: List<Collaborator>) {
+        val a = 0
+    }
+
+    private fun setLabels(labels: List<Label>) {
+        val a = 0
+    }
+
     companion object {
         const val ARG_SCREENSHOT = "screenshot"
+        const val ARG_ORGANIZATION = "organization"
+        const val ARG_REPOSITORY = "repository"
     }
 }

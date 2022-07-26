@@ -39,6 +39,7 @@ android {
 dependencies {
     implementation("androidx.core:core-ktx:${rootProject.extra.get("coreKtxVersion")}")
     implementation("androidx.appcompat:appcompat:${rootProject.extra.get("appCompatVersion")}")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.0")
     implementation("com.google.android.material:material:${rootProject.extra.get("materialVersion")}")
 
     val coroutinesVersion = "1.6.2"
@@ -53,16 +54,12 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     api("io.jsonwebtoken:jjwt-api:0.11.5")
+    implementation("org.bouncycastle:bcpkix-jdk18on:1.71")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-orgjson:0.11.5") {
-        exclude(group = "org.json", module = "json")
+        exclude(
+            group = "org.json",
+            module = "json"
+        )
     }
-    implementation("org.bouncycastle:bcpkix-jdk18on:1.71")
-
-//    api("io.jsonwebtoken:jjwt-api:0.11.5")
-//    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
-//    runtimeOnly("org.bouncycastle:bcprov-jdk15on:1.70")
-//    runtimeOnly("io.jsonwebtoken:jjwt-orgjson:0.11.5") {
-//        exclude(group = "org.json", module = "json")
-//    }
 }

@@ -2,6 +2,7 @@ package com.karacca.beetle.network
 
 import com.karacca.beetle.network.model.AccessToken
 import com.karacca.beetle.network.model.Collaborator
+import com.karacca.beetle.network.model.Label
 import com.karacca.beetle.network.model.RepositoryInstallation
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -34,4 +35,11 @@ interface GitHubService {
         @Path("org") org: String,
         @Path("repo") repo: String
     ): List<Collaborator>
+
+    @GET("repos/{org}/{repo}/labels")
+    suspend fun getLabels(
+        @Header("Authorization") authHeader: String,
+        @Path("org") org: String,
+        @Path("repo") repo: String
+    ): List<Label>
 }
