@@ -53,6 +53,8 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
+    implementation("io.coil-kt:coil:2.1.0")
+
     api("io.jsonwebtoken:jjwt-api:0.11.5")
     implementation("org.bouncycastle:bcpkix-jdk18on:1.71")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")

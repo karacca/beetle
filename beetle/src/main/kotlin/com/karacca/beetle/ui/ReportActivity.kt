@@ -1,5 +1,6 @@
 package com.karacca.beetle.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -11,13 +12,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.get
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
 import com.karacca.beetle.R
 import com.karacca.beetle.network.GitHubRepository
 import com.karacca.beetle.network.model.Collaborator
 import com.karacca.beetle.network.model.Label
+import com.karacca.beetle.ui.adapter.CollaboratorAdapter
+import com.karacca.beetle.ui.widget.HorizontalItemDecorator
 import kotlinx.coroutines.launch
 import org.bouncycastle.util.io.pem.PemReader
 import java.io.BufferedReader
@@ -35,6 +43,8 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
 
     private lateinit var screenshot: Uri
 
+    private lateinit var gitHubRepository: GitHubRepository
+
     private lateinit var toolbar: MaterialToolbar
     private lateinit var imageView: AppCompatImageView
     private lateinit var screenshotCardView: MaterialCardView
@@ -42,7 +52,11 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
     private lateinit var titleEditText: TextInputEditText
     private lateinit var descriptionEditText: TextInputEditText
 
-    private lateinit var gitHubRepository: GitHubRepository
+    private lateinit var assigneesRecyclerView: RecyclerView
+    private lateinit var labelsRecyclerView: RecyclerView
+
+    private lateinit var collaboratorAdapter: CollaboratorAdapter
+    private val collaborators: ArrayList<Collaborator> = arrayListOf()
 
     private val openEditActivity = registerForActivityResult(
         object : ActivityResultContract<Uri, Uri>() {
@@ -62,6 +76,7 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
         imageView.setImageURI(screenshot)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_report)
@@ -83,6 +98,8 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
         logsCardView = findViewById(R.id.card_view_logs)
         titleEditText = findViewById(R.id.edit_text_title)
         descriptionEditText = findViewById(R.id.edit_text_description)
+        assigneesRecyclerView = findViewById(R.id.recycler_view_assignees)
+        labelsRecyclerView = findViewById(R.id.recycler_view_labels)
 
         toolbar.setNavigationOnClickListener { finish() }
         imageView.setImageURI(screenshot)
@@ -92,6 +109,21 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
 
         titleEditText.addTextChangedListener(this)
         descriptionEditText.addTextChangedListener(this)
+
+        collaboratorAdapter = CollaboratorAdapter(collaborators) {
+            this.collaborators[it].selected = !this.collaborators[it].selected
+            collaboratorAdapter.notifyDataSetChanged()
+        }
+
+        assigneesRecyclerView.apply {
+            addItemDecoration(HorizontalItemDecorator(8))
+            adapter = collaboratorAdapter
+            layoutManager = LinearLayoutManager(
+                this@ReportActivity,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+        }
     }
 
     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -115,12 +147,15 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
         return keyFactory.generatePrivate(PKCS8EncodedKeySpec(privateKeyPem.content))
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun setCollaborators(collaborators: List<Collaborator>) {
-        val a = 0
+        this.collaborators.clear()
+        this.collaborators.addAll(collaborators)
+        collaboratorAdapter.notifyDataSetChanged()
     }
 
     private fun setLabels(labels: List<Label>) {
-        val a = 0
+
     }
 
     companion object {

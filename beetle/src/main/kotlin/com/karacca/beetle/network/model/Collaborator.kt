@@ -1,4 +1,5 @@
 package com.karacca.beetle.network.model
+
 import com.google.gson.annotations.SerializedName
 
 
@@ -6,7 +7,7 @@ import com.google.gson.annotations.SerializedName
  * @author karacca
  * @date 22.07.2022
  */
- 
+
 data class Collaborator(
     @SerializedName("login")
     val login: String? = null,
@@ -49,6 +50,9 @@ data class Collaborator(
     @SerializedName("role_name")
     val roleName: String? = null
 ) {
+
+    var selected = false
+
     data class Permissions(
         @SerializedName("admin")
         val admin: Boolean? = null,
