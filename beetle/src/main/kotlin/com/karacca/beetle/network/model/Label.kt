@@ -22,4 +22,7 @@ data class Label(
     val color: String? = null,
     @SerializedName("default")
     val default: Boolean? = null
-)
+) {
+
+    var selected = false
+}

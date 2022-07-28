@@ -25,6 +25,7 @@ import com.karacca.beetle.network.GitHubRepository
 import com.karacca.beetle.network.model.Collaborator
 import com.karacca.beetle.network.model.Label
 import com.karacca.beetle.ui.adapter.CollaboratorAdapter
+import com.karacca.beetle.ui.adapter.LabelAdapter
 import com.karacca.beetle.ui.widget.HorizontalItemDecorator
 import kotlinx.coroutines.launch
 import org.bouncycastle.util.io.pem.PemReader
@@ -56,7 +57,7 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
     private lateinit var labelsRecyclerView: RecyclerView
 
     private lateinit var collaboratorAdapter: CollaboratorAdapter
-    private val collaborators: ArrayList<Collaborator> = arrayListOf()
+    private lateinit var labelAdapter: LabelAdapter
 
     private val openEditActivity = registerForActivityResult(
         object : ActivityResultContract<Uri, Uri>() {
@@ -110,14 +111,31 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
         titleEditText.addTextChangedListener(this)
         descriptionEditText.addTextChangedListener(this)
 
-        collaboratorAdapter = CollaboratorAdapter(collaborators) {
-            this.collaborators[it].selected = !this.collaborators[it].selected
-            collaboratorAdapter.notifyDataSetChanged()
+        collaboratorAdapter = CollaboratorAdapter {
+            val collaborators = collaboratorAdapter.currentList
+            collaborators[it].selected = !collaborators[it].selected
+            collaboratorAdapter.submitList(collaborators)
         }
 
         assigneesRecyclerView.apply {
             addItemDecoration(HorizontalItemDecorator(8))
             adapter = collaboratorAdapter
+            layoutManager = LinearLayoutManager(
+                this@ReportActivity,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+        }
+
+        labelAdapter = LabelAdapter {
+            val labels = labelAdapter.currentList
+            labels[it].selected = !labels[it].selected
+            labelAdapter.submitList(labels)
+        }
+
+        labelsRecyclerView.apply {
+            addItemDecoration(HorizontalItemDecorator(8))
+            adapter = labelAdapter
             layoutManager = LinearLayoutManager(
                 this@ReportActivity,
                 LinearLayoutManager.HORIZONTAL,
@@ -147,15 +165,12 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
         return keyFactory.generatePrivate(PKCS8EncodedKeySpec(privateKeyPem.content))
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun setCollaborators(collaborators: List<Collaborator>) {
-        this.collaborators.clear()
-        this.collaborators.addAll(collaborators)
-        collaboratorAdapter.notifyDataSetChanged()
+        collaboratorAdapter.submitList(collaborators)
     }
 
     private fun setLabels(labels: List<Label>) {
-
+        labelAdapter.submitList(labels)
     }
 
     companion object {

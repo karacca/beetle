@@ -100,11 +100,15 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_labels"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="@id/text_view_labels"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/barrier_inputs"
-        app:layout_constraintTop_toTopOf="@id/text_view_labels" />
+        app:layout_constraintTop_toTopOf="@id/text_view_labels"
+        tools:itemCount="1"
+        tools:listitem="@layout/item_label" />
 
     <View
         android:id="@+id/view_labels_divider"
