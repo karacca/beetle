@@ -15,7 +15,7 @@ data class Label(
     @SerializedName("url")
     val url: String? = null,
     @SerializedName("name")
-    val name: String? = null,
+    val name: String,
     @SerializedName("description")
     val description: String? = null,
     @SerializedName("color")

@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Collaborator(
     @SerializedName("login")
-    val login: String? = null,
+    val login: String,
     @SerializedName("id")
     val id: Int? = null,
     @SerializedName("node_id")

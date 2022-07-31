@@ -12,16 +12,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.get
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.card.MaterialCardView
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
 import com.karacca.beetle.R
-import com.karacca.beetle.network.GitHubRepository
+import com.karacca.beetle.network.BeetleRepository
 import com.karacca.beetle.network.model.Collaborator
 import com.karacca.beetle.network.model.Label
 import com.karacca.beetle.ui.adapter.CollaboratorAdapter
@@ -44,7 +41,7 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
 
     private lateinit var screenshot: Uri
 
-    private lateinit var gitHubRepository: GitHubRepository
+    private lateinit var beetleRepository: BeetleRepository
 
     private lateinit var toolbar: MaterialToolbar
     private lateinit var imageView: AppCompatImageView
@@ -86,11 +83,11 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
         val organization = intent.extras!!.getString(ARG_ORGANIZATION)!!
         val repository = intent.extras!!.getString(ARG_REPOSITORY)!!
 
-        gitHubRepository = GitHubRepository(getPrivateKey(application), organization, repository)
+        beetleRepository = BeetleRepository(getPrivateKey(application), organization, repository)
 
         lifecycleScope.launch {
-            setCollaborators(gitHubRepository.getCollaborators())
-            setLabels(gitHubRepository.getLabels())
+            setCollaborators(beetleRepository.getCollaborators())
+            setLabels(beetleRepository.getLabels())
         }
 
         toolbar = findViewById(R.id.toolbar)
@@ -110,6 +107,15 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
 
         titleEditText.addTextChangedListener(this)
         descriptionEditText.addTextChangedListener(this)
+
+        toolbar.setOnMenuItemClickListener {
+            return@setOnMenuItemClickListener if (it.itemId == R.id.send) {
+                createIssue()
+                true
+            } else {
+                false
+            }
+        }
 
         collaboratorAdapter = CollaboratorAdapter {
             val collaborators = collaboratorAdapter.currentList
@@ -171,6 +177,18 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
 
     private fun setLabels(labels: List<Label>) {
         labelAdapter.submitList(labels)
+    }
+
+    private fun createIssue() {
+        val title = titleEditText.text?.toString() ?: ""
+        val description = descriptionEditText.text?.toString() ?: ""
+        val assignees = collaboratorAdapter.currentList.filter { it.selected }.map { it.login }
+        val labels = labelAdapter.currentList.filter { it.selected }.map { it.name }
+
+        lifecycleScope.launch {
+            beetleRepository.createIssue(title, description, assignees, labels, screenshot)
+            finish()
+        }
     }
 
     companion object {

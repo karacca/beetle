@@ -1,13 +1,7 @@
 package com.karacca.beetle.network
 
-import com.karacca.beetle.network.model.AccessToken
-import com.karacca.beetle.network.model.Collaborator
-import com.karacca.beetle.network.model.Label
-import com.karacca.beetle.network.model.RepositoryInstallation
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
-import retrofit2.http.Path
+import com.karacca.beetle.network.model.*
+import retrofit2.http.*
 
 /**
  * @author karacca
@@ -42,4 +36,12 @@ interface GitHubService {
         @Path("org") org: String,
         @Path("repo") repo: String
     ): List<Label>
+
+    @POST("repos/{org}/{repo}/issues")
+    suspend fun createIssue(
+        @Header("Authorization") authHeader: String,
+        @Path("org") org: String,
+        @Path("repo") repo: String,
+        @Body issueRequest: IssueRequest
+    ): Issue
 }

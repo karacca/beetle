@@ -1,22 +1,14 @@
 package com.karacca.beetle
 
 import android.app.Application
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import com.karacca.beetle.network.GitHubRepository
 import com.karacca.beetle.ui.ReportActivity
 import com.karacca.beetle.utils.*
-import org.bouncycastle.util.io.pem.PemReader
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.security.KeyFactory
-import java.security.PrivateKey
-import java.security.spec.PKCS8EncodedKeySpec
 
 /**
  * @author karacca
