@@ -14,8 +14,7 @@ import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.google.android.material.textview.MaterialTextView
 import com.karacca.beetle.R
-import com.karacca.beetle.network.model.Collaborator
-import com.karacca.beetle.network.model.Label
+import com.karacca.beetle.data.model.Label
 
 /**
  * @author karacca

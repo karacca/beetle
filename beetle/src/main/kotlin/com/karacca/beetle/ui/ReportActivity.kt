@@ -18,9 +18,9 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 import com.karacca.beetle.R
-import com.karacca.beetle.network.BeetleRepository
-import com.karacca.beetle.network.model.Collaborator
-import com.karacca.beetle.network.model.Label
+import com.karacca.beetle.data.repository.BeetleRepository
+import com.karacca.beetle.data.model.Collaborator
+import com.karacca.beetle.data.model.Label
 import com.karacca.beetle.ui.adapter.CollaboratorAdapter
 import com.karacca.beetle.ui.adapter.LabelAdapter
 import com.karacca.beetle.ui.widget.HorizontalItemDecorator

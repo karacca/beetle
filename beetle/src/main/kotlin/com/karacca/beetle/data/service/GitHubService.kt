@@ -1,6 +1,11 @@
-package com.karacca.beetle.network
+package com.karacca.beetle.data.service
 
-import com.karacca.beetle.network.model.*
+import com.google.gson.Gson
+import com.karacca.beetle.data.model.*
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
 /**
@@ -44,4 +49,23 @@ interface GitHubService {
         @Path("repo") repo: String,
         @Body issueRequest: IssueRequest
     ): Issue
+
+    companion object {
+        private const val BASE_URL = "https://api.github.com"
+        private val ACCEPT_HEADER = Pair("Accept", "application/vnd.github.v3+json")
+
+        fun newInstance(): GitHubService = Retrofit.Builder()
+            .client(OkHttpClient.Builder()
+                .addInterceptor(HttpLoggingInterceptor().apply {
+                    setLevel(HttpLoggingInterceptor.Level.BODY)
+                }).addInterceptor { chain ->
+                    val builder = chain.request().newBuilder()
+                    builder.addHeader(ACCEPT_HEADER.first, ACCEPT_HEADER.second)
+                    chain.proceed(builder.build())
+                }.build()
+            ).baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create(Gson()))
+            .build()
+            .create(GitHubService::class.java)
+    }
 }

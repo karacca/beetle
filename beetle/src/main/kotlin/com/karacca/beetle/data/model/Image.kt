@@ -1,4 +1,4 @@
-package com.karacca.beetle.network.model
+package com.karacca.beetle.data.model
 import com.google.gson.annotations.SerializedName
 
 

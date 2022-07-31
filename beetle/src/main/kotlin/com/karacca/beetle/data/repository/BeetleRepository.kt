@@ -1,22 +1,16 @@
-package com.karacca.beetle.network
+package com.karacca.beetle.data.repository
 
 import android.net.Uri
 import androidx.core.net.toFile
-import com.google.gson.Gson
 import com.karacca.beetle.BuildConfig
-import com.karacca.beetle.network.model.*
+import com.karacca.beetle.data.model.*
+import com.karacca.beetle.data.service.GitHubService
+import com.karacca.beetle.data.service.ImageService
 import io.jsonwebtoken.Jwts
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
-import okhttp3.OkHttpClient
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.io.File
 import java.security.PrivateKey
 import java.text.SimpleDateFormat
 import java.util.*
@@ -32,28 +26,9 @@ internal class BeetleRepository(
     private val repo: String
 ) {
 
+    private val gitHubService = GitHubService.newInstance()
+    private val imageService = ImageService.newInstance()
     private var gitHubToken: AccessToken? = null
-    private val gitHubService: GitHubService = Retrofit.Builder()
-        .client(
-            OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().apply { setLevel(HttpLoggingInterceptor.Level.BODY) })
-                .addInterceptor { chain ->
-                    val builder = chain.request().newBuilder()
-                    builder.addHeader("Accept", "application/vnd.github.v3+json")
-                    chain.proceed(builder.build())
-                }.build()
-        ).baseUrl("https://api.github.com")
-        .addConverterFactory(GsonConverterFactory.create(Gson()))
-        .build().create(GitHubService::class.java)
-
-    private val imageService = Retrofit.Builder()
-        .client(
-            OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().apply { setLevel(HttpLoggingInterceptor.Level.BODY) })
-                .build()
-        ).baseUrl("https://freeimage.host/api/1/")
-        .addConverterFactory(GsonConverterFactory.create(Gson()))
-        .build().create(ImageService::class.java)
 
     suspend fun getCollaborators(): List<Collaborator> {
         return this.gitHubService.getCollaborators(getAccessTokenHeader(), org, repo)
@@ -105,7 +80,7 @@ internal class BeetleRepository(
     private suspend fun getAccessTokenHeader(): String {
         val token = if (
             gitHubToken?.token != null &&
-            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault()).apply {
+            SimpleDateFormat(DATE_PATTERN, Locale.getDefault()).apply {
                 timeZone = TimeZone.getTimeZone("UTC")
             }.parse(gitHubToken!!.expiresAt!!)!! > Date()
         ) {
@@ -127,5 +102,10 @@ internal class BeetleRepository(
             .compact()
 
         return "Bearer $token"
+    }
+
+    companion object {
+        @Suppress("SpellCheckingInspection")
+        private const val DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss"
     }
 }

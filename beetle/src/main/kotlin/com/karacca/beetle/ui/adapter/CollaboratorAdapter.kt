@@ -10,10 +10,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
-import com.google.android.material.chip.Chip
 import com.google.android.material.textview.MaterialTextView
 import com.karacca.beetle.R
-import com.karacca.beetle.network.model.Collaborator
+import com.karacca.beetle.data.model.Collaborator
 
 /**
  * @author karacca
