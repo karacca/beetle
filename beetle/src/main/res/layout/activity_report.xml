@@ -125,7 +125,7 @@
         android:background="@android:color/transparent"
         android:gravity="start"
         android:hint="@string/title_hint"
-        android:inputType="text"
+        android:inputType="textMultiLine"
         android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
         android:textColor="?attr/colorOnSurface"
         app:layout_constraintBottom_toTopOf="@id/card_view_screenshot"
