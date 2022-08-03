@@ -1,6 +1,7 @@
 package com.karacca.beetle.data.repository
 
 import android.net.Uri
+import android.os.Build
 import androidx.core.net.toFile
 import com.karacca.beetle.BuildConfig
 import com.karacca.beetle.data.model.*
@@ -46,7 +47,6 @@ internal class BeetleRepository(
         screenshot: Uri
     ): Issue {
         val image = uploadImage(screenshot)
-
         return this.gitHubService.createIssue(
             getAccessTokenHeader(),
             org,
@@ -104,8 +104,8 @@ internal class BeetleRepository(
         return "Bearer $token"
     }
 
+    @Suppress("SpellCheckingInspection")
     companion object {
-        @Suppress("SpellCheckingInspection")
         private const val DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss"
     }
 }

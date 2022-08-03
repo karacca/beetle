@@ -1,6 +1,7 @@
 package com.karacca.beetle.data.service
 
 import com.google.gson.Gson
+import com.karacca.beetle.BuildConfig
 import com.karacca.beetle.data.model.Image
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -29,13 +30,27 @@ internal interface ImageService {
     companion object {
         private const val BASE_URL = "https://freeimage.host/api/1/"
 
-        fun newInstance(): ImageService = Retrofit.Builder()
-            .client(
-                OkHttpClient.Builder()
-                    .addInterceptor(HttpLoggingInterceptor().apply { setLevel(HttpLoggingInterceptor.Level.BODY) })
-                    .build()
-            ).baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create(Gson()))
-            .build().create(ImageService::class.java)
+        fun newInstance(): ImageService {
+            val loggingInterceptor = HttpLoggingInterceptor().apply {
+                setLevel(
+                    if (BuildConfig.DEBUG) {
+                        HttpLoggingInterceptor.Level.BODY
+                    } else {
+                        HttpLoggingInterceptor.Level.NONE
+                    }
+                )
+            }
+
+            val okHttpClient = OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .build()
+
+            return Retrofit.Builder()
+                .client(okHttpClient)
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(Gson()))
+                .build()
+                .create(ImageService::class.java)
+        }
     }
 }

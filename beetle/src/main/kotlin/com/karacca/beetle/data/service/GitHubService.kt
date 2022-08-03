@@ -1,8 +1,11 @@
 package com.karacca.beetle.data.service
 
 import com.google.gson.Gson
+import com.karacca.beetle.BuildConfig
 import com.karacca.beetle.data.model.*
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -54,18 +57,34 @@ interface GitHubService {
         private const val BASE_URL = "https://api.github.com"
         private val ACCEPT_HEADER = Pair("Accept", "application/vnd.github.v3+json")
 
-        fun newInstance(): GitHubService = Retrofit.Builder()
-            .client(OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().apply {
-                    setLevel(HttpLoggingInterceptor.Level.BODY)
-                }).addInterceptor { chain ->
-                    val builder = chain.request().newBuilder()
-                    builder.addHeader(ACCEPT_HEADER.first, ACCEPT_HEADER.second)
-                    chain.proceed(builder.build())
-                }.build()
-            ).baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create(Gson()))
-            .build()
-            .create(GitHubService::class.java)
+        fun newInstance(): GitHubService {
+            val loggingInterceptor = HttpLoggingInterceptor().apply {
+                setLevel(
+                    if (BuildConfig.DEBUG) {
+                        HttpLoggingInterceptor.Level.BODY
+                    } else {
+                        HttpLoggingInterceptor.Level.NONE
+                    }
+                )
+            }
+
+            val headerInterceptor = Interceptor { chain ->
+                val builder = chain.request().newBuilder()
+                builder.addHeader(ACCEPT_HEADER.first, ACCEPT_HEADER.second)
+                chain.proceed(builder.build())
+            }
+
+            val okHttpClient = OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .addInterceptor(headerInterceptor)
+                .build()
+
+            return Retrofit.Builder()
+                .client(okHttpClient)
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(Gson()))
+                .build()
+                .create(GitHubService::class.java)
+        }
     }
 }

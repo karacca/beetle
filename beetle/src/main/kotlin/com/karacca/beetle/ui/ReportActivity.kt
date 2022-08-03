@@ -7,15 +7,19 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.get
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.karacca.beetle.R
 import com.karacca.beetle.data.repository.BeetleRepository
@@ -49,6 +53,7 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
     private lateinit var logsCardView: MaterialCardView
     private lateinit var titleEditText: TextInputEditText
     private lateinit var descriptionEditText: TextInputEditText
+    private lateinit var loadingLayout: ConstraintLayout
 
     private lateinit var assigneesRecyclerView: RecyclerView
     private lateinit var labelsRecyclerView: RecyclerView
@@ -83,13 +88,6 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
         val organization = intent.extras!!.getString(ARG_ORGANIZATION)!!
         val repository = intent.extras!!.getString(ARG_REPOSITORY)!!
 
-        beetleRepository = BeetleRepository(getPrivateKey(application), organization, repository)
-
-        lifecycleScope.launch {
-            setCollaborators(beetleRepository.getCollaborators())
-            setLabels(beetleRepository.getLabels())
-        }
-
         toolbar = findViewById(R.id.toolbar)
         imageView = findViewById(R.id.image_view_screenshot)
         screenshotCardView = findViewById(R.id.card_view_screenshot)
@@ -98,6 +96,13 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
         descriptionEditText = findViewById(R.id.edit_text_description)
         assigneesRecyclerView = findViewById(R.id.recycler_view_assignees)
         labelsRecyclerView = findViewById(R.id.recycler_view_labels)
+        loadingLayout = findViewById(R.id.layout_loading)
+
+        beetleRepository = BeetleRepository(getPrivateKey(application), organization, repository)
+        execute {
+            setCollaborators(beetleRepository.getCollaborators())
+            setLabels(beetleRepository.getLabels())
+        }
 
         toolbar.setNavigationOnClickListener { finish() }
         imageView.setImageURI(screenshot)
@@ -185,9 +190,29 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
         val assignees = collaboratorAdapter.currentList.filter { it.selected }.map { it.login }
         val labels = labelAdapter.currentList.filter { it.selected }.map { it.name }
 
-        lifecycleScope.launch {
+        execute {
             beetleRepository.createIssue(title, description, assignees, labels, screenshot)
             finish()
+        }
+    }
+
+    private fun execute(request: suspend () -> Unit) {
+        lifecycleScope.launch {
+            loadingLayout.isVisible = true
+            try {
+                request.invoke()
+                loadingLayout.isVisible = false
+            } catch (exception: Exception) {
+                findViewById<View>(android.R.id.content)?.let {
+                    Snackbar.make(
+                        it,
+                        it.context.getString(R.string.error),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+
+                loadingLayout.isVisible = false
+            }
         }
     }
 

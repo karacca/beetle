@@ -10,4 +10,5 @@
     <string name="screenshot_edit">Highlight or hide info</string>
     <string name="system_logs">System Logs</string>
     <string name="view">View</string>
+    <string name="error">Something went wrong</string>
 </resources>

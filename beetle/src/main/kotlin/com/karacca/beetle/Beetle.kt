@@ -58,6 +58,7 @@ object Beetle : ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListene
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun showConfirmation() {
         activity?.findViewById<View>(android.R.id.content)?.let {
             val snackBar = Snackbar.make(
