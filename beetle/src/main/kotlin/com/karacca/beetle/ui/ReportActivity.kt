@@ -190,6 +190,7 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
         val assignees = collaboratorAdapter.currentList.filter { it.selected }.map { it.login }
         val labels = labelAdapter.currentList.filter { it.selected }.map { it.name }
 
+        
         execute {
             beetleRepository.createIssue(title, description, assignees, labels, screenshot)
             finish()
