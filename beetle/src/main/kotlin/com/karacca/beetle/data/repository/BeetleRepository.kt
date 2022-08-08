@@ -2,6 +2,7 @@ package com.karacca.beetle.data.repository
 
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import androidx.core.net.toFile
 import com.karacca.beetle.BuildConfig
 import com.karacca.beetle.data.model.*
@@ -41,21 +42,24 @@ internal class BeetleRepository(
 
     suspend fun createIssue(
         title: String,
-        description: String,
+        descriptionMarkdown: String,
         assignees: List<String>,
-        labels: List<String>,
-        screenshot: Uri
+        labels: List<String>
     ): Issue {
-        val image = uploadImage(screenshot)
         return this.gitHubService.createIssue(
             getAccessTokenHeader(),
             org,
             repo,
-            IssueRequest(title, "$description ${image.image!!.url}", assignees, labels)
+            IssueRequest(
+                title,
+                descriptionMarkdown,
+                assignees,
+                labels
+            )
         )
     }
 
-    private suspend fun uploadImage(screenshot: Uri): Image {
+    suspend fun uploadImage(screenshot: Uri): Image {
         val file = screenshot.toFile()
         return imageService.uploadImage(
             BuildConfig.FREE_IMAGE_KEY.toRequestBody(),
@@ -102,6 +106,31 @@ internal class BeetleRepository(
             .compact()
 
         return "Bearer $token"
+    }
+
+    private fun createDescriptionMarkdown(
+        description: String,
+        imageUrl: String,
+        customData: Bundle
+    ): String {
+        return """
+            ## Description
+            $description
+
+            ## Device Info
+            |Property|Value|
+            |:-|:-|
+            |Brand|${Build.BRAND}|
+            |Model|${Build.MODEL}|
+            |Android Version|${Build.VERSION.SDK_INT}|
+            
+            ## Custom Data
+            |Property|Value|
+            |:-|:-|
+
+            ## Screenshot
+            <img src="$imageUrl" alt="screenshot" width="200"/> 
+        """.trimIndent()
     }
 
     @Suppress("SpellCheckingInspection")

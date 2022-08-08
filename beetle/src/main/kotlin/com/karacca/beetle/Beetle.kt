@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import com.google.android.material.snackbar.Snackbar
 import com.karacca.beetle.ui.ReportActivity
 import com.karacca.beetle.utils.*
@@ -25,6 +26,8 @@ object Beetle : ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListene
     private var activity: AppCompatActivity? = null
     private val shake = Shake(this)
 
+    private val customData = bundleOf()
+
     fun init(
         application: Application,
         organization: String,
@@ -36,6 +39,26 @@ object Beetle : ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListene
         initialized = true
     }
 
+    fun setCustomKey(key: String, value: String) {
+        customData.putString(key, value)
+    }
+
+    fun setCustomKey(key: String, value: Boolean) {
+        customData.putBoolean(key, value)
+    }
+
+    fun setCustomKey(key: String, value: Double) {
+        customData.putDouble(key, value)
+    }
+
+    fun setCustomKey(key: String, value: Float) {
+        customData.putFloat(key, value)
+    }
+
+    fun setCustomKey(key: String, value: Int) {
+        customData.putInt(key, value)
+    }
+
     override fun onShake() {
         showConfirmation()
     }
@@ -44,6 +67,7 @@ object Beetle : ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListene
         val context = activity ?: return
         val intent = Intent(context, ReportActivity::class.java)
         intent.putExtra(ReportActivity.ARG_SCREENSHOT, data)
+        intent.putExtra(ReportActivity.ARG_CUSTOM_DATA, customData)
         intent.putExtra(ReportActivity.ARG_ORGANIZATION, organization)
         intent.putExtra(ReportActivity.ARG_REPOSITORY, repository)
         context.startActivity(intent)

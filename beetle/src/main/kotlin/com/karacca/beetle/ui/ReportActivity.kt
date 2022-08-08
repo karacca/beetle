@@ -10,6 +10,7 @@ import android.text.TextWatcher
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.get
@@ -19,15 +20,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.karacca.beetle.R
 import com.karacca.beetle.data.repository.BeetleRepository
 import com.karacca.beetle.data.model.Collaborator
+import com.karacca.beetle.data.model.Image
 import com.karacca.beetle.data.model.Label
 import com.karacca.beetle.ui.adapter.CollaboratorAdapter
 import com.karacca.beetle.ui.adapter.LabelAdapter
 import com.karacca.beetle.ui.widget.HorizontalItemDecorator
+import com.karacca.beetle.utils.DeviceUtils
+import com.karacca.beetle.utils.MarkdownUtils
 import kotlinx.coroutines.launch
 import org.bouncycastle.util.io.pem.PemReader
 import java.io.BufferedReader
@@ -44,6 +49,7 @@ import java.security.spec.PKCS8EncodedKeySpec
 internal class ReportActivity : AppCompatActivity(), TextWatcher {
 
     private lateinit var screenshot: Uri
+    private lateinit var customData: Bundle
 
     private lateinit var beetleRepository: BeetleRepository
 
@@ -54,6 +60,8 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
     private lateinit var titleEditText: TextInputEditText
     private lateinit var descriptionEditText: TextInputEditText
     private lateinit var loadingLayout: ConstraintLayout
+    private lateinit var checkBoxLogs: MaterialCheckBox
+    private lateinit var checkBoxScreenshot: MaterialCheckBox
 
     private lateinit var assigneesRecyclerView: RecyclerView
     private lateinit var labelsRecyclerView: RecyclerView
@@ -85,6 +93,8 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
         setContentView(R.layout.activity_report)
 
         screenshot = intent.extras!!.getParcelable(ARG_SCREENSHOT)!!
+        customData = intent.extras!!.getParcelable(ARG_CUSTOM_DATA)!!
+
         val organization = intent.extras!!.getString(ARG_ORGANIZATION)!!
         val repository = intent.extras!!.getString(ARG_REPOSITORY)!!
 
@@ -97,6 +107,8 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
         assigneesRecyclerView = findViewById(R.id.recycler_view_assignees)
         labelsRecyclerView = findViewById(R.id.recycler_view_labels)
         loadingLayout = findViewById(R.id.layout_loading)
+        checkBoxLogs = findViewById(R.id.checkbox_logs)
+        checkBoxScreenshot = findViewById(R.id.checkbox_screenshot)
 
         beetleRepository = BeetleRepository(getPrivateKey(application), organization, repository)
         execute {
@@ -189,9 +201,33 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
         val description = descriptionEditText.text?.toString() ?: ""
         val assignees = collaboratorAdapter.currentList.filter { it.selected }.map { it.login }
         val labels = labelAdapter.currentList.filter { it.selected }.map { it.name }
-        
+
         execute {
-            beetleRepository.createIssue(title, description, assignees, labels, screenshot)
+            val image: Image? = if (checkBoxScreenshot.isChecked) {
+                beetleRepository.uploadImage(screenshot)
+            } else {
+                null
+            }
+
+            val descriptionMarkdown = MarkdownUtils.createDescription(
+                this,
+                description,
+                image?.image?.url,
+                if (checkBoxLogs.isChecked) {
+                    DeviceUtils.getDeviceData(this)
+                } else {
+                    null
+                },
+                customData
+            )
+
+            beetleRepository.createIssue(
+                title,
+                descriptionMarkdown,
+                assignees,
+                labels
+            )
+
             finish()
         }
     }
@@ -218,6 +254,7 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
 
     companion object {
         const val ARG_SCREENSHOT = "screenshot"
+        const val ARG_CUSTOM_DATA = "custom_data"
         const val ARG_ORGANIZATION = "organization"
         const val ARG_REPOSITORY = "repository"
     }
