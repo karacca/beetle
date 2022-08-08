@@ -87,11 +87,11 @@ object Beetle : ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListene
         activity?.findViewById<View>(android.R.id.content)?.let {
             val snackBar = Snackbar.make(
                 it,
-                it.context.getString(R.string.confirmation),
+                it.context.getString(R.string.shake_confirmation),
                 Snackbar.LENGTH_SHORT
             )
 
-            snackBar.setAction(it.context.getString(R.string.confirmation_positive)) {
+            snackBar.setAction(it.context.getString(R.string.shake_confirmation_positive)) {
                 snackBar.dismiss()
                 Handler().postDelayed({
                     val task = CollectDataTask(activity!!, this)

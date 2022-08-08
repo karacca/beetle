@@ -223,12 +223,24 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
                 customData
             )
 
-            gitHubRepository.createIssue(
+            val issue = gitHubRepository.createIssue(
                 title,
                 descriptionMarkdown,
                 assignees,
                 labels
             )
+
+            findViewById<View>(android.R.id.content)?.let {
+                val snackBar = Snackbar.make(
+                    it,
+                    it.context.getString(R.string.issue_created),
+                    Snackbar.LENGTH_LONG
+                )
+
+                snackBar.setAction(it.context.getString(R.string.shake_confirmation_positive)) {
+
+                }
+            }
 
             finish()
         }

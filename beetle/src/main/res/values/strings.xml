@@ -1,6 +1,6 @@
 <resources>
-    <string name="confirmation">Do you want to report a bug ?</string>
-    <string name="confirmation_positive">Yes</string>
+    <string name="shake_confirmation">Do you want to report a bug ?</string>
+    <string name="shake_confirmation_positive">Yes</string>
     <string name="send_feedback">Send Feedback</string>
     <string name="title">Title: </string>
     <string name="title_hint">Something got wrong</string>
@@ -20,4 +20,6 @@
     <string name="model">Model</string>
     <string name="version_key">Android Version</string>
     <string name="version_value">Android %1$s (API %2$d)</string>
+    <string name="issue_created">Issue Created!</string>
+    <string name="show">Show</string>
 </resources>
