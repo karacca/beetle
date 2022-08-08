@@ -20,6 +20,8 @@
     <string name="model">Model</string>
     <string name="version_key">Android Version</string>
     <string name="version_value">Android %1$s (API %2$d)</string>
-    <string name="issue_created">Issue Created!</string>
-    <string name="show">Show</string>
+    <string name="issue_created">Issue created with ID #%1$d</string>
+    <string name="tap_for_issue_details">Tap here to see issue details</string>
+    <string name="notification_channel_name">Beetle</string>
+    <string name="notification_channel_name_description">GitHub Issues</string>
 </resources>

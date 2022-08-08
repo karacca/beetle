@@ -8,6 +8,8 @@ import com.google.gson.annotations.SerializedName
  */
 
 internal data class Issue(
-    @SerializedName("url")
-    val url: String?
+    @SerializedName("number")
+    val number: Int? = null,
+    @SerializedName("html_url")
+    val htmlUrl: String?
 )

@@ -33,6 +33,7 @@ import com.karacca.beetle.ui.adapter.LabelAdapter
 import com.karacca.beetle.ui.widget.HorizontalItemDecorator
 import com.karacca.beetle.utils.DeviceUtils
 import com.karacca.beetle.utils.MarkdownUtils
+import com.karacca.beetle.utils.NotificationUtils
 import kotlinx.coroutines.launch
 import org.bouncycastle.util.io.pem.PemReader
 import java.io.BufferedReader
@@ -230,18 +231,7 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
                 labels
             )
 
-            findViewById<View>(android.R.id.content)?.let {
-                val snackBar = Snackbar.make(
-                    it,
-                    it.context.getString(R.string.issue_created),
-                    Snackbar.LENGTH_LONG
-                )
-
-                snackBar.setAction(it.context.getString(R.string.shake_confirmation_positive)) {
-
-                }
-            }
-
+            NotificationUtils.sendNotification(this, issue)
             finish()
         }
     }
