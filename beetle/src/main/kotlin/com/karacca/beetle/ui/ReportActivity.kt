@@ -10,7 +10,6 @@ import android.text.TextWatcher
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.get
@@ -24,10 +23,11 @@ import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.karacca.beetle.R
-import com.karacca.beetle.data.repository.BeetleRepository
+import com.karacca.beetle.data.repository.GitHubRepository
 import com.karacca.beetle.data.model.Collaborator
 import com.karacca.beetle.data.model.Image
 import com.karacca.beetle.data.model.Label
+import com.karacca.beetle.data.repository.ImageRepository
 import com.karacca.beetle.ui.adapter.CollaboratorAdapter
 import com.karacca.beetle.ui.adapter.LabelAdapter
 import com.karacca.beetle.ui.widget.HorizontalItemDecorator
@@ -51,7 +51,8 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
     private lateinit var screenshot: Uri
     private lateinit var customData: Bundle
 
-    private lateinit var beetleRepository: BeetleRepository
+    private lateinit var gitHubRepository: GitHubRepository
+    private lateinit var imageRepository: ImageRepository
 
     private lateinit var toolbar: MaterialToolbar
     private lateinit var imageView: AppCompatImageView
@@ -110,10 +111,11 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
         checkBoxLogs = findViewById(R.id.checkbox_logs)
         checkBoxScreenshot = findViewById(R.id.checkbox_screenshot)
 
-        beetleRepository = BeetleRepository(getPrivateKey(application), organization, repository)
+        gitHubRepository = GitHubRepository(getPrivateKey(application), organization, repository)
+        imageRepository = ImageRepository()
         execute {
-            setCollaborators(beetleRepository.getCollaborators())
-            setLabels(beetleRepository.getLabels())
+            setCollaborators(gitHubRepository.getCollaborators())
+            setLabels(gitHubRepository.getLabels())
         }
 
         toolbar.setNavigationOnClickListener { finish() }
@@ -204,7 +206,7 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
 
         execute {
             val image: Image? = if (checkBoxScreenshot.isChecked) {
-                beetleRepository.uploadImage(screenshot)
+                imageRepository.uploadImage(screenshot)
             } else {
                 null
             }
@@ -221,7 +223,7 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
                 customData
             )
 
-            beetleRepository.createIssue(
+            gitHubRepository.createIssue(
                 title,
                 descriptionMarkdown,
                 assignees,

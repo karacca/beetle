@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit
  * @author Bob Lee (bob@squareup.com)
  * @author Eric Burke (eric@squareup.com)
  */
-class ShakeDetector(private val listener: Listener) : SensorEventListener {
+internal class ShakeDetector(private val listener: Listener) : SensorEventListener {
 
     /**
      * When the magnitude of total acceleration exceeds this
@@ -262,7 +262,7 @@ class ShakeDetector(private val listener: Listener) : SensorEventListener {
     }
 }
 
-class Shake(private val listener: ShakeDetector.Listener) : ShakeDetector.Listener {
+internal class Shake(private val listener: ShakeDetector.Listener) : ShakeDetector.Listener {
 
     private val detector: ShakeDetector = ShakeDetector(this)
     private val coolDown: Long = TimeUnit.SECONDS.toMillis(5)

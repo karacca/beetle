@@ -5,7 +5,7 @@ package com.karacca.beetle.data.model
  * @date 28.07.2022
  */
 
-data class IssueRequest(
+internal data class IssueRequest(
     val title: String,
     val body: String,
     val assignees: List<String>,

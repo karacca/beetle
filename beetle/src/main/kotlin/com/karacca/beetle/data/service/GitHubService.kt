@@ -5,7 +5,6 @@ import com.karacca.beetle.BuildConfig
 import com.karacca.beetle.data.model.*
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -16,7 +15,7 @@ import retrofit2.http.*
  * @date 19.07.2022
  */
 
-interface GitHubService {
+internal interface GitHubService {
 
     @GET("repos/{org}/{repo}/installation")
     suspend fun getRepositoryInstallation(

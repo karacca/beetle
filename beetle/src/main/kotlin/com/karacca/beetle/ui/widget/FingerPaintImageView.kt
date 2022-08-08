@@ -15,7 +15,7 @@ import com.karacca.beetle.R
  * @date 18.07.2022
  */
 
-class FingerPaintImageView @JvmOverloads constructor(
+internal class FingerPaintImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,

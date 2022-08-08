@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
  * @date 28.07.2022
  */
 
-internal class HorizontalItemDecorator(private val spacing: Int) : RecyclerView.ItemDecoration() {
+internal class HorizontalItemDecorator(
+    private val spacing: Int
+) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(
         outRect: Rect,
@@ -23,13 +25,11 @@ internal class HorizontalItemDecorator(private val spacing: Int) : RecyclerView.
         val isFirstItem = position == 0
         val isLastItem = position == (parent.adapter?.itemCount ?: 1) - 1
 
+        outRect.right = spacing
         outRect.left = if (!isFirstItem) {
             spacing
         } else {
             0
         }
-
-        outRect.right = spacing
-
     }
 }
