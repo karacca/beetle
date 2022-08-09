@@ -1,4 +1,6 @@
 <resources>
 
-    <style name="Theme.Beetle" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
+    <style name="Theme.Beetle" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:colorPrimaryDark">@android:color/black</item>
+    </style>
 </resources>

@@ -1,16 +1,22 @@
 <resources>
-    <string name="shake_confirmation">Do you want to report a bug ?</string>
-    <string name="shake_confirmation_positive">Yes</string>
-    <string name="send_feedback">Send Feedback</string>
-    <string name="title">Title: </string>
-    <string name="title_hint">Something got wrong</string>
-    <string name="assignees">Assignees: </string>
-    <string name="labels">Labels: </string>
-    <string name="screenshot">Screenshot</string>
-    <string name="screenshot_edit">Highlight or hide info</string>
-    <string name="system_logs">System Logs</string>
-    <string name="view">View</string>
-    <string name="error">Something went wrong</string>
+    <string name="send_feedback_title">Send Feedback</string>
+    <string name="send_feedback_confirmation">Tap here to send feedback</string>
+    <string name="send_feedback_success_title">Thank you for your feedback #%1$d</string>
+    <string name="send_feedback_success_description">Tap here to see the details</string>
+
+    <string name="feedback_title">Title: </string>
+    <string name="feedback_assignees">Assignees: </string>
+    <string name="feedback_labels">Labels: </string>
+    <string name="feedback_title_hint">Give a short description</string>
+    <string name="feedback_description_hint">Describe the issue you are experiencing.
+        Please detail as much information as possible regarding your issue.</string>
+    <string name="feedback_screenshot_title">Screenshot</string>
+    <string name="feedback_screenshot_action">Tap here to highlight or hide info</string>
+    <string name="feedback_logs_title">System Logs</string>
+    <string name="feedback_logs_action">Tap here to view</string>
+
+
+    <string name="common_error">Something went wrong</string>
     <string name="description">Description</string>
     <string name="value">Value</string>
     <string name="key">Key</string>
@@ -20,8 +26,6 @@
     <string name="model">Model</string>
     <string name="version_key">Android Version</string>
     <string name="version_value">Android %1$s (API %2$d)</string>
-    <string name="issue_created">Issue created with ID #%1$d</string>
-    <string name="tap_for_issue_details">Tap here to see issue details</string>
     <string name="notification_channel_name">Beetle</string>
     <string name="notification_channel_name_description">GitHub Issues</string>
 </resources>

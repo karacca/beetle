@@ -47,7 +47,7 @@ internal object MarkdownUtils {
         }
 
         if (imageUrl != null) {
-            sb.appendLine("## ${context.getString(R.string.screenshot)}")
+            sb.appendLine("## ${context.getString(R.string.feedback_screenshot_title)}")
             sb.appendLine("<img src=\"$imageUrl\" alt=\"screenshot\" width=\"200\"/>")
         }
 

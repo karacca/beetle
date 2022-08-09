@@ -39,8 +39,8 @@ internal object NotificationUtils {
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_send)
-            .setContentTitle(context.getString(R.string.issue_created, issue.number))
-            .setContentText(context.getString(R.string.tap_for_issue_details))
+            .setContentTitle(context.getString(R.string.send_feedback_success_title, issue.number))
+            .setContentText(context.getString(R.string.send_feedback_success_description))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)

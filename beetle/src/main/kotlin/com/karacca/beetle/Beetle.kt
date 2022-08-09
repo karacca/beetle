@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import com.google.android.material.snackbar.Snackbar
 import com.karacca.beetle.ui.ReportActivity
@@ -82,24 +83,28 @@ object Beetle : ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListene
         }
     }
 
-    @Suppress("DEPRECATION")
     private fun showConfirmation() {
         activity?.findViewById<View>(android.R.id.content)?.let {
             val snackBar = Snackbar.make(
                 it,
-                it.context.getString(R.string.shake_confirmation),
+                it.context.getString(R.string.send_feedback_confirmation),
                 Snackbar.LENGTH_SHORT
             )
 
-            snackBar.setAction(it.context.getString(R.string.shake_confirmation_positive)) {
+            snackBar.view.setOnClickListener {
                 snackBar.dismiss()
-                Handler().postDelayed({
-                    val task = CollectDataTask(activity!!, this)
-                    task.execute(BitmapUtils.capture(activity!!.window.decorView.rootView))
-                }, 250)
+                startFeedback()
             }
 
             snackBar.show()
         }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun startFeedback() {
+        Handler().postDelayed({
+            val task = CollectDataTask(activity!!, this)
+            task.execute(BitmapUtils.capture(activity!!.window.decorView.rootView))
+        }, 100)
     }
 }

@@ -246,7 +246,7 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
                 findViewById<View>(android.R.id.content)?.let {
                     Snackbar.make(
                         it,
-                        it.context.getString(R.string.error),
+                        it.context.getString(R.string.common_error),
                         Snackbar.LENGTH_SHORT
                     ).show()
                 }
