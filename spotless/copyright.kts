@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Omer Karaca
+ * Copyright $YEAR Omer Karaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,3 @@
  * limitations under the License.
  */
 
-package com.karacca.beetle.data.model
-
-/**
- * @author karacca
- * @date 28.07.2022
- */
-
-internal data class IssueRequest(
-    val title: String,
-    val body: String,
-    val assignees: List<String>,
-    val labels: List<String>
-)

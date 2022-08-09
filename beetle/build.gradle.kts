@@ -5,6 +5,7 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     id("com.android.library")
     kotlin("android")
+    id("com.diffplug.spotless")
 }
 
 android {
@@ -78,5 +79,29 @@ dependencies {
             group = "org.json",
             module = "json"
         )
+    }
+}
+
+spotless {
+    kotlin {
+        target("**/*.kt")
+        targetExclude("**/build/**/*.kt")
+        ktlint("0.44.0").userData(mapOf("disabled_rules" to "no-wildcard-imports"))
+        licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
+    }
+
+    format("kts") {
+        target("**/*.kts")
+        targetExclude("**/build/**/*.kts")
+        licenseHeaderFile(
+            rootProject.file("spotless/copyright.kts"),
+            "(^(?![\\/ ]\\*).*$)"
+        )
+    }
+
+    format("xml") {
+        target("**/*.xml")
+        targetExclude("**/build/**/*.xml")
+        licenseHeaderFile(rootProject.file("spotless/copyright.xml"), "(<[^!?])")
     }
 }
