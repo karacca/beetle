@@ -19,13 +19,13 @@ import com.karacca.beetle.data.model.Collaborator
  * @date 27.07.2022
  */
 
-internal class CollaboratorAdapter(
+internal class AssigneeAdapter(
     private val listener: (Int) -> Unit
-) : ListAdapter<Collaborator, CollaboratorAdapter.ViewHolder>(CollaboratorDiff) {
+) : ListAdapter<Collaborator, AssigneeAdapter.ViewHolder>(CollaboratorDiff) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
         LayoutInflater.from(parent.context).inflate(
-            R.layout.item_collaborator,
+            R.layout.item_assignee,
             parent,
             false
         )

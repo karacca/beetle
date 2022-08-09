@@ -13,5 +13,9 @@ class Application : Application() {
     override fun onCreate() {
         super.onCreate()
         Beetle.init(this, "karacca", "Beetle")
+        Beetle.configure {
+            enableAssignees = false
+            enableLabels = false
+        }
     }
 }

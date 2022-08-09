@@ -64,8 +64,10 @@
         android:text="@string/feedback_assignees"
         android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
         android:textColor="?attr/colorOnSurface"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view_title_divider" />
+        app:layout_constraintTop_toBottomOf="@id/view_title_divider"
+        tools:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_assignees"
@@ -73,19 +75,23 @@
         android:layout_height="wrap_content"
         android:overScrollMode="never"
         android:scrollbars="none"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/text_view_assignees"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/barrier_inputs"
         app:layout_constraintTop_toTopOf="@id/text_view_assignees"
         tools:itemCount="1"
-        tools:listitem="@layout/item_collaborator" />
+        tools:listitem="@layout/item_assignee"
+        tools:visibility="visible" />
 
     <View
         android:id="@+id/view_assignees_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/gray"
-        app:layout_constraintTop_toBottomOf="@id/text_view_assignees" />
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/text_view_assignees"
+        tools:visibility="visible" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_view_labels"
@@ -95,8 +101,10 @@
         android:text="@string/feedback_labels"
         android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
         android:textColor="?attr/colorOnSurface"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view_assignees_divider" />
+        app:layout_constraintTop_toBottomOf="@id/view_assignees_divider"
+        tools:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_labels"
@@ -104,19 +112,23 @@
         android:layout_height="wrap_content"
         android:overScrollMode="never"
         android:scrollbars="none"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/text_view_labels"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/barrier_inputs"
         app:layout_constraintTop_toTopOf="@id/text_view_labels"
         tools:itemCount="1"
-        tools:listitem="@layout/item_label" />
+        tools:listitem="@layout/item_label"
+        tools:visibility="visible" />
 
     <View
         android:id="@+id/view_labels_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/gray"
-        app:layout_constraintTop_toBottomOf="@id/text_view_labels" />
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/text_view_labels"
+        tools:visibility="visible" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edit_text_description"

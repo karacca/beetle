@@ -22,13 +22,16 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textview.MaterialTextView
+import com.google.gson.Gson
+import com.karacca.beetle.BeetleConfig
 import com.karacca.beetle.R
 import com.karacca.beetle.data.repository.GitHubRepository
 import com.karacca.beetle.data.model.Collaborator
 import com.karacca.beetle.data.model.Image
 import com.karacca.beetle.data.model.Label
 import com.karacca.beetle.data.repository.ImageRepository
-import com.karacca.beetle.ui.adapter.CollaboratorAdapter
+import com.karacca.beetle.ui.adapter.AssigneeAdapter
 import com.karacca.beetle.ui.adapter.LabelAdapter
 import com.karacca.beetle.ui.widget.HorizontalItemDecorator
 import com.karacca.beetle.utils.DeviceUtils
@@ -50,25 +53,28 @@ import java.security.spec.PKCS8EncodedKeySpec
 internal class FeedbackActivity : AppCompatActivity(), TextWatcher {
 
     private lateinit var screenshot: Uri
-    private lateinit var customData: Bundle
+    private lateinit var config: BeetleConfig
 
     private lateinit var gitHubRepository: GitHubRepository
     private lateinit var imageRepository: ImageRepository
 
     private lateinit var toolbar: MaterialToolbar
-    private lateinit var imageView: AppCompatImageView
-    private lateinit var screenshotCardView: MaterialCardView
-    private lateinit var logsCardView: MaterialCardView
     private lateinit var titleEditText: TextInputEditText
-    private lateinit var descriptionEditText: TextInputEditText
-    private lateinit var loadingLayout: ConstraintLayout
-    private lateinit var checkBoxLogs: MaterialCheckBox
-    private lateinit var checkBoxScreenshot: MaterialCheckBox
-
+    private lateinit var assigneesTextView: MaterialTextView
     private lateinit var assigneesRecyclerView: RecyclerView
+    private lateinit var assigneesDividerView: View
+    private lateinit var labelsTextView: MaterialTextView
     private lateinit var labelsRecyclerView: RecyclerView
+    private lateinit var labelsDividerView: View
+    private lateinit var descriptionEditText: TextInputEditText
+    private lateinit var screenshotCardView: MaterialCardView
+    private lateinit var screenshotCheckBox: MaterialCheckBox
+    private lateinit var screenshotImageView: AppCompatImageView
+    private lateinit var logsCardView: MaterialCardView
+    private lateinit var logsCheckBox: MaterialCheckBox
+    private lateinit var loadingLayout: ConstraintLayout
 
-    private lateinit var collaboratorAdapter: CollaboratorAdapter
+    private lateinit var assigneesAdapter: AssigneeAdapter
     private lateinit var labelAdapter: LabelAdapter
 
     private val openEditScreenshotActivity = registerForActivityResult(
@@ -85,8 +91,8 @@ internal class FeedbackActivity : AppCompatActivity(), TextWatcher {
         }
     ) {
         screenshot = it
-        imageView.setImageURI(null)
-        imageView.setImageURI(screenshot)
+        screenshotImageView.setImageURI(null)
+        screenshotImageView.setImageURI(screenshot)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -95,39 +101,31 @@ internal class FeedbackActivity : AppCompatActivity(), TextWatcher {
         setContentView(R.layout.activity_feedback)
 
         screenshot = intent.extras!!.getParcelable(ARG_SCREENSHOT)!!
-        customData = intent.extras!!.getParcelable(ARG_CUSTOM_DATA)!!
+        config = Gson().fromJson(intent.extras!!.getString(ARG_CONFIG)!!, BeetleConfig::class.java)
 
         val organization = intent.extras!!.getString(ARG_ORGANIZATION)!!
         val repository = intent.extras!!.getString(ARG_REPOSITORY)!!
 
-        toolbar = findViewById(R.id.toolbar)
-        imageView = findViewById(R.id.image_view_screenshot)
-        screenshotCardView = findViewById(R.id.card_view_screenshot)
-        logsCardView = findViewById(R.id.card_view_logs)
-        titleEditText = findViewById(R.id.edit_text_title)
-        descriptionEditText = findViewById(R.id.edit_text_description)
-        assigneesRecyclerView = findViewById(R.id.recycler_view_assignees)
-        labelsRecyclerView = findViewById(R.id.recycler_view_labels)
-        loadingLayout = findViewById(R.id.layout_loading)
-        checkBoxLogs = findViewById(R.id.checkbox_logs)
-        checkBoxScreenshot = findViewById(R.id.checkbox_screenshot)
-
         gitHubRepository = GitHubRepository(getPrivateKey(application), organization, repository)
         imageRepository = ImageRepository()
-        execute {
-            setCollaborators(gitHubRepository.getCollaborators())
-            setLabels(gitHubRepository.getLabels())
-        }
+
+        toolbar = findViewById(R.id.toolbar)
+        titleEditText = findViewById(R.id.edit_text_title)
+        assigneesTextView = findViewById(R.id.text_view_assignees)
+        assigneesRecyclerView = findViewById(R.id.recycler_view_assignees)
+        assigneesDividerView = findViewById(R.id.view_assignees_divider)
+        labelsTextView = findViewById(R.id.text_view_labels)
+        labelsRecyclerView = findViewById(R.id.recycler_view_labels)
+        labelsDividerView = findViewById(R.id.view_labels_divider)
+        descriptionEditText = findViewById(R.id.edit_text_description)
+        screenshotCardView = findViewById(R.id.card_view_screenshot)
+        screenshotCheckBox = findViewById(R.id.checkbox_screenshot)
+        screenshotImageView = findViewById(R.id.image_view_screenshot)
+        logsCardView = findViewById(R.id.card_view_logs)
+        logsCheckBox = findViewById(R.id.checkbox_logs)
+        loadingLayout = findViewById(R.id.layout_loading)
 
         toolbar.setNavigationOnClickListener { finish() }
-        imageView.setImageURI(screenshot)
-        screenshotCardView.setOnClickListener {
-            openEditScreenshotActivity.launch(screenshot)
-        }
-
-        titleEditText.addTextChangedListener(this)
-        descriptionEditText.addTextChangedListener(this)
-
         toolbar.setOnMenuItemClickListener {
             return@setOnMenuItemClickListener if (it.itemId == R.id.send) {
                 createIssue()
@@ -137,36 +135,58 @@ internal class FeedbackActivity : AppCompatActivity(), TextWatcher {
             }
         }
 
-        collaboratorAdapter = CollaboratorAdapter {
-            val collaborators = collaboratorAdapter.currentList
-            collaborators[it].selected = !collaborators[it].selected
-            collaboratorAdapter.submitList(collaborators)
+        screenshotImageView.setImageURI(screenshot)
+        screenshotCardView.setOnClickListener {
+            openEditScreenshotActivity.launch(screenshot)
         }
 
-        assigneesRecyclerView.apply {
-            addItemDecoration(HorizontalItemDecorator(8))
-            adapter = collaboratorAdapter
-            layoutManager = LinearLayoutManager(
-                this@FeedbackActivity,
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
+        titleEditText.addTextChangedListener(this)
+        descriptionEditText.addTextChangedListener(this)
+
+        execute {
+            if (config.enableAssignees) {
+                setAssignees(gitHubRepository.getCollaborators())
+            }
+
+            if (config.enableLabels) {
+                setLabels(gitHubRepository.getLabels())
+            }
         }
 
-        labelAdapter = LabelAdapter {
-            val labels = labelAdapter.currentList
-            labels[it].selected = !labels[it].selected
-            labelAdapter.submitList(labels)
+        if (config.enableAssignees) {
+            assigneesAdapter = AssigneeAdapter {
+                val assignees = assigneesAdapter.currentList
+                assignees[it].selected = !assignees[it].selected
+                assigneesAdapter.submitList(assignees)
+            }
+
+            assigneesRecyclerView.apply {
+                addItemDecoration(HorizontalItemDecorator(8))
+                adapter = assigneesAdapter
+                layoutManager = LinearLayoutManager(
+                    this@FeedbackActivity,
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
+            }
         }
 
-        labelsRecyclerView.apply {
-            addItemDecoration(HorizontalItemDecorator(8))
-            adapter = labelAdapter
-            layoutManager = LinearLayoutManager(
-                this@FeedbackActivity,
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
+        if (config.enableLabels) {
+            labelAdapter = LabelAdapter {
+                val labels = labelAdapter.currentList
+                labels[it].selected = !labels[it].selected
+                labelAdapter.submitList(labels)
+            }
+
+            labelsRecyclerView.apply {
+                addItemDecoration(HorizontalItemDecorator(8))
+                adapter = labelAdapter
+                layoutManager = LinearLayoutManager(
+                    this@FeedbackActivity,
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
+            }
         }
     }
 
@@ -191,22 +211,37 @@ internal class FeedbackActivity : AppCompatActivity(), TextWatcher {
         return keyFactory.generatePrivate(PKCS8EncodedKeySpec(privateKeyPem.content))
     }
 
-    private fun setCollaborators(collaborators: List<Collaborator>) {
-        collaboratorAdapter.submitList(collaborators)
+    private fun setAssignees(assignees: List<Collaborator>) {
+        assigneesAdapter.submitList(assignees)
+        assigneesTextView.isVisible = true
+        assigneesRecyclerView.isVisible = true
+        assigneesDividerView.isVisible = true
     }
 
     private fun setLabels(labels: List<Label>) {
         labelAdapter.submitList(labels)
+        labelsTextView.isVisible = true
+        labelsRecyclerView.isVisible = true
+        labelsDividerView.isVisible = true
     }
 
     private fun createIssue() {
         val title = titleEditText.text?.toString() ?: ""
         val description = descriptionEditText.text?.toString() ?: ""
-        val assignees = collaboratorAdapter.currentList.filter { it.selected }.map { it.login }
-        val labels = labelAdapter.currentList.filter { it.selected }.map { it.name }
+        val assignees = if (config.enableAssignees) {
+            assigneesAdapter.currentList.filter { it.selected }.map { it.login }
+        } else {
+            arrayListOf()
+        }
+
+        val labels = if (config.enableLabels) {
+            labelAdapter.currentList.filter { it.selected }.map { it.name }
+        } else {
+            arrayListOf()
+        }
 
         execute {
-            val image: Image? = if (checkBoxScreenshot.isChecked) {
+            val image: Image? = if (screenshotCheckBox.isChecked) {
                 imageRepository.uploadImage(screenshot)
             } else {
                 null
@@ -216,12 +251,12 @@ internal class FeedbackActivity : AppCompatActivity(), TextWatcher {
                 this,
                 description,
                 image?.image?.url,
-                if (checkBoxLogs.isChecked) {
+                if (logsCheckBox.isChecked) {
                     DeviceUtils.getDeviceData(this)
                 } else {
                     null
                 },
-                customData
+                config.extras()
             )
 
             val issue = gitHubRepository.createIssue(
@@ -261,5 +296,6 @@ internal class FeedbackActivity : AppCompatActivity(), TextWatcher {
         const val ARG_CUSTOM_DATA = "custom_data"
         const val ARG_ORGANIZATION = "organization"
         const val ARG_REPOSITORY = "repository"
+        const val ARG_CONFIG = "arg_config"
     }
 }

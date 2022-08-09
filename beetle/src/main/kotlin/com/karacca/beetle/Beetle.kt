@@ -8,6 +8,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import com.karacca.beetle.ui.FeedbackActivity
 import com.karacca.beetle.utils.*
 
@@ -27,6 +28,7 @@ object Beetle : ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListene
     private val shake = Shake(this)
 
     private val customData = bundleOf()
+    private var config = BeetleConfig()
 
     fun init(
         application: Application,
@@ -39,24 +41,8 @@ object Beetle : ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListene
         initialized = true
     }
 
-    fun setCustomKey(key: String, value: String) {
-        customData.putString(key, value)
-    }
-
-    fun setCustomKey(key: String, value: Boolean) {
-        customData.putBoolean(key, value)
-    }
-
-    fun setCustomKey(key: String, value: Double) {
-        customData.putDouble(key, value)
-    }
-
-    fun setCustomKey(key: String, value: Float) {
-        customData.putFloat(key, value)
-    }
-
-    fun setCustomKey(key: String, value: Int) {
-        customData.putInt(key, value)
+    fun configure(block: BeetleConfig.() -> Unit) {
+        config.apply(block)
     }
 
     override fun onShake() {
@@ -70,6 +56,7 @@ object Beetle : ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListene
         intent.putExtra(FeedbackActivity.ARG_CUSTOM_DATA, customData)
         intent.putExtra(FeedbackActivity.ARG_ORGANIZATION, organization)
         intent.putExtra(FeedbackActivity.ARG_REPOSITORY, repository)
+        intent.putExtra(FeedbackActivity.ARG_CONFIG, Gson().toJson(config))
         context.startActivity(intent)
     }
 

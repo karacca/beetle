@@ -34,7 +34,7 @@ internal object MarkdownUtils {
             }
         }
 
-        if (customData != null) {
+        if (customData != null && !customData.isEmpty) {
             sb.appendLine("## ${context.getString(R.string.custom_data)}")
             val key = context.getString(R.string.key)
             val value = context.getString(R.string.value)
