@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/menu_report"
+        app:menu="@menu/menu_feedback"
         app:navigationIcon="@drawable/ic_back"
         app:navigationIconTint="?attr/colorOnSurface"
         app:popupTheme="@style/Theme.Beetle"

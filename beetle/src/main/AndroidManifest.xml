@@ -6,10 +6,10 @@
 
     <application>
         <activity
-            android:name=".ui.ReportActivity"
+            android:name=".ui.FeedbackActivity"
             android:theme="@style/Theme.Beetle" />
         <activity
-            android:name=".ui.EditActivity"
+            android:name=".ui.EditScreenshotActivity"
             android:theme="@style/Theme.Beetle" />
     </application>
 </manifest>

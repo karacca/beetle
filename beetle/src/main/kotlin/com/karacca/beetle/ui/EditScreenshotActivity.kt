@@ -20,7 +20,7 @@ import com.karacca.beetle.utils.CollectDataTask
  */
 
 @Suppress("DEPRECATION")
-internal class EditActivity : AppCompatActivity(), CollectDataTask.OnCollectDataTaskListener {
+internal class EditScreenshotActivity : AppCompatActivity(), CollectDataTask.OnCollectDataTaskListener {
 
     private lateinit var screenshot: Uri
 
@@ -35,7 +35,7 @@ internal class EditActivity : AppCompatActivity(), CollectDataTask.OnCollectData
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
 
-        screenshot = intent.extras!!.getParcelable(ReportActivity.ARG_SCREENSHOT)!!
+        screenshot = intent.extras!!.getParcelable(FeedbackActivity.ARG_SCREENSHOT)!!
 
         screenshotImageView = findViewById(R.id.image_view_screenshot)
         closeButton = findViewById(R.id.button_close)
@@ -48,13 +48,13 @@ internal class EditActivity : AppCompatActivity(), CollectDataTask.OnCollectData
 
         closeButton.setOnClickListener {
             val intent = Intent()
-            intent.putExtra(ReportActivity.ARG_SCREENSHOT, screenshot)
+            intent.putExtra(FeedbackActivity.ARG_SCREENSHOT, screenshot)
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
 
         saveButton.setOnClickListener {
-            val task = CollectDataTask(this@EditActivity, this@EditActivity)
+            val task = CollectDataTask(this@EditScreenshotActivity, this@EditScreenshotActivity)
             task.execute(screenshotImageView.drawable?.toBitmap())
         }
 
@@ -77,7 +77,7 @@ internal class EditActivity : AppCompatActivity(), CollectDataTask.OnCollectData
 
     override fun onDataReady(data: Uri?) {
         val intent = Intent()
-        intent.putExtra(ReportActivity.ARG_SCREENSHOT, data)
+        intent.putExtra(FeedbackActivity.ARG_SCREENSHOT, data)
         setResult(Activity.RESULT_OK, intent)
         finish()
     }

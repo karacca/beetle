@@ -6,10 +6,9 @@ import android.net.Uri
 import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import com.google.android.material.snackbar.Snackbar
-import com.karacca.beetle.ui.ReportActivity
+import com.karacca.beetle.ui.FeedbackActivity
 import com.karacca.beetle.utils.*
 
 /**
@@ -66,11 +65,11 @@ object Beetle : ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListene
 
     override fun onDataReady(data: Uri?) {
         val context = activity ?: return
-        val intent = Intent(context, ReportActivity::class.java)
-        intent.putExtra(ReportActivity.ARG_SCREENSHOT, data)
-        intent.putExtra(ReportActivity.ARG_CUSTOM_DATA, customData)
-        intent.putExtra(ReportActivity.ARG_ORGANIZATION, organization)
-        intent.putExtra(ReportActivity.ARG_REPOSITORY, repository)
+        val intent = Intent(context, FeedbackActivity::class.java)
+        intent.putExtra(FeedbackActivity.ARG_SCREENSHOT, data)
+        intent.putExtra(FeedbackActivity.ARG_CUSTOM_DATA, customData)
+        intent.putExtra(FeedbackActivity.ARG_ORGANIZATION, organization)
+        intent.putExtra(FeedbackActivity.ARG_REPOSITORY, repository)
         context.startActivity(intent)
     }
 

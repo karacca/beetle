@@ -47,7 +47,7 @@ import java.security.spec.PKCS8EncodedKeySpec
  * @date 13.07.2022
  */
 
-internal class ReportActivity : AppCompatActivity(), TextWatcher {
+internal class FeedbackActivity : AppCompatActivity(), TextWatcher {
 
     private lateinit var screenshot: Uri
     private lateinit var customData: Bundle
@@ -71,10 +71,10 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
     private lateinit var collaboratorAdapter: CollaboratorAdapter
     private lateinit var labelAdapter: LabelAdapter
 
-    private val openEditActivity = registerForActivityResult(
+    private val openEditScreenshotActivity = registerForActivityResult(
         object : ActivityResultContract<Uri, Uri>() {
             override fun createIntent(context: Context, input: Uri?): Intent {
-                return Intent(context, EditActivity::class.java).apply {
+                return Intent(context, EditScreenshotActivity::class.java).apply {
                     putExtra(ARG_SCREENSHOT, input)
                 }
             }
@@ -92,7 +92,7 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_report)
+        setContentView(R.layout.activity_feedback)
 
         screenshot = intent.extras!!.getParcelable(ARG_SCREENSHOT)!!
         customData = intent.extras!!.getParcelable(ARG_CUSTOM_DATA)!!
@@ -122,7 +122,7 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
         toolbar.setNavigationOnClickListener { finish() }
         imageView.setImageURI(screenshot)
         screenshotCardView.setOnClickListener {
-            openEditActivity.launch(screenshot)
+            openEditScreenshotActivity.launch(screenshot)
         }
 
         titleEditText.addTextChangedListener(this)
@@ -147,7 +147,7 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
             addItemDecoration(HorizontalItemDecorator(8))
             adapter = collaboratorAdapter
             layoutManager = LinearLayoutManager(
-                this@ReportActivity,
+                this@FeedbackActivity,
                 LinearLayoutManager.HORIZONTAL,
                 false
             )
@@ -163,7 +163,7 @@ internal class ReportActivity : AppCompatActivity(), TextWatcher {
             addItemDecoration(HorizontalItemDecorator(8))
             adapter = labelAdapter
             layoutManager = LinearLayoutManager(
-                this@ReportActivity,
+                this@FeedbackActivity,
                 LinearLayoutManager.HORIZONTAL,
                 false
             )
