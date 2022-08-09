@@ -1,9 +1,10 @@
 @file:Suppress("SpellCheckingInspection")
 
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.library")
     kotlin("android")
-    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -12,6 +13,20 @@ android {
     defaultConfig {
         minSdk = 21
         targetSdk = 32
+
+        val localProperties = gradleLocalProperties(rootDir)
+
+        buildConfigField(
+            "String",
+            "GITHUB_APP_ID",
+            "\"${localProperties.getProperty("GITHUB_APP_ID")}\""
+        )
+
+        buildConfigField(
+            "String",
+            "FREE_IMAGE_API_KEY",
+            "\"${localProperties.getProperty("FREE_IMAGE_API_KEY")}\""
+        )
     }
 
     buildTypes {
@@ -39,7 +54,7 @@ android {
 dependencies {
     implementation("androidx.core:core-ktx:${rootProject.extra.get("coreKtxVersion")}")
     implementation("androidx.appcompat:appcompat:${rootProject.extra.get("appCompatVersion")}")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
     implementation("com.google.android.material:material:${rootProject.extra.get("materialVersion")}")
 
     val coroutinesVersion = "1.6.2"

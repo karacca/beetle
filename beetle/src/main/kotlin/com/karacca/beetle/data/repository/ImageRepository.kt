@@ -21,7 +21,7 @@ internal class ImageRepository {
     suspend fun uploadImage(screenshot: Uri): Image {
         val file = screenshot.toFile()
         return imageService.uploadImage(
-            BuildConfig.FREE_IMAGE_KEY.toRequestBody(),
+            BuildConfig.FREE_IMAGE_API_KEY.toRequestBody(),
             MultipartBody.Part.createFormData(
                 "source",
                 file.name,
