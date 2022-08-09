@@ -15,8 +15,8 @@ import java.lang.reflect.Field
 
 internal object DeviceUtils {
 
-    fun getDeviceData(context: Context): Bundle {
-        return bundleOf(
+    fun getDeviceData(context: Context): HashMap<String, Any> {
+        return hashMapOf(
             context.getString(R.string.brand) to Build.BRAND,
             context.getString(R.string.model) to Build.MODEL,
             context.getString(R.string.version_key) to context.getString(

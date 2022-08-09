@@ -45,6 +45,10 @@ object Beetle : ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListene
         config.apply(block)
     }
 
+    fun configure(config: BeetleConfig) {
+        this.config = config
+    }
+
     override fun onShake() {
         showConfirmation()
     }

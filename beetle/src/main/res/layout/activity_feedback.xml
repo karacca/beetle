@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:text="@string/feedback_title"
-        android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
         android:textColor="?attr/colorOnSurface"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view_toolbar_divider" />
@@ -41,6 +41,11 @@
         android:hint="@string/feedback_title_hint"
         android:inputType="text"
         android:maxLines="1"
+        android:nextFocusLeft="@id/edit_text_description"
+        android:nextFocusRight="@id/edit_text_description"
+        android:nextFocusUp="@id/edit_text_description"
+        android:nextFocusDown="@id/edit_text_description"
+        android:nextFocusForward="@id/edit_text_description"
         android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
         android:textColor="?attr/colorOnSurface"
         android:textCursorDrawable="@null"
@@ -62,7 +67,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:text="@string/feedback_assignees"
-        android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
         android:textColor="?attr/colorOnSurface"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
@@ -99,7 +104,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:text="@string/feedback_labels"
-        android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
         android:textColor="?attr/colorOnSurface"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
@@ -138,6 +143,7 @@
         android:background="@android:color/transparent"
         android:gravity="start"
         android:hint="@string/feedback_description_hint"
+        android:imeOptions="actionDone"
         android:inputType="textMultiLine"
         android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
         android:textColor="?attr/colorOnSurface"
@@ -176,7 +182,7 @@
                 android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
                 android:textColor="?attr/colorOnSurface"
                 app:layout_constraintBottom_toTopOf="@id/text_view_edit_screenshot"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/image_view_screenshot"
                 app:layout_constraintStart_toEndOf="@id/checkbox_screenshot"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed" />
@@ -186,10 +192,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/feedback_screenshot_action"
-                android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
                 android:textColor="?attr/colorOnSurface"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/image_view_screenshot"
                 app:layout_constraintStart_toEndOf="@id/checkbox_screenshot"
                 app:layout_constraintTop_toBottomOf="@id/text_view_screenshot"
                 app:layout_constraintVertical_chainStyle="packed" />
@@ -239,6 +246,7 @@
                 android:textColor="?attr/colorOnSurface"
                 app:layout_constraintBottom_toTopOf="@id/text_view_view_logs"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/image_view_logs"
                 app:layout_constraintStart_toEndOf="@id/checkbox_logs"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed" />
@@ -248,13 +256,25 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/feedback_logs_action"
-                android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
                 android:textColor="?attr/colorOnSurface"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/image_view_logs"
                 app:layout_constraintStart_toEndOf="@id/checkbox_logs"
                 app:layout_constraintTop_toBottomOf="@id/text_view_logs"
                 app:layout_constraintVertical_chainStyle="packed" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_view_logs"
+                android:layout_width="96dp"
+                android:layout_height="0dp"
+                android:background="@color/gray"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_article"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

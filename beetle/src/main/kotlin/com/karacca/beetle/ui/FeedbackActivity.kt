@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.os.bundleOf
 import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.checkbox.MaterialCheckBox
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
@@ -78,21 +80,23 @@ internal class FeedbackActivity : AppCompatActivity(), TextWatcher {
     private lateinit var labelAdapter: LabelAdapter
 
     private val openEditScreenshotActivity = registerForActivityResult(
-        object : ActivityResultContract<Uri, Uri>() {
+        object : ActivityResultContract<Uri, Uri?>() {
             override fun createIntent(context: Context, input: Uri?): Intent {
                 return Intent(context, EditScreenshotActivity::class.java).apply {
                     putExtra(ARG_SCREENSHOT, input)
                 }
             }
 
-            override fun parseResult(resultCode: Int, intent: Intent?): Uri {
-                return intent!!.getParcelableExtra(ARG_SCREENSHOT)!!
+            override fun parseResult(resultCode: Int, intent: Intent?): Uri? {
+                return intent?.getParcelableExtra(ARG_SCREENSHOT)
             }
         }
     ) {
-        screenshot = it
-        screenshotImageView.setImageURI(null)
-        screenshotImageView.setImageURI(screenshot)
+        if (it != null) {
+            screenshot = it
+            screenshotImageView.setImageURI(null)
+            screenshotImageView.setImageURI(screenshot)
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -138,6 +142,17 @@ internal class FeedbackActivity : AppCompatActivity(), TextWatcher {
         screenshotImageView.setImageURI(screenshot)
         screenshotCardView.setOnClickListener {
             openEditScreenshotActivity.launch(screenshot)
+        }
+
+        logsCardView.setOnClickListener {
+            MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.feedback_logs_title)
+                .setItems(
+                    (DeviceUtils.getDeviceData(this) + config.extras).map {
+                        "${it.key}: ${it.value}"
+                    }.toTypedArray()
+                ) { _, _ -> }
+                .show()
         }
 
         titleEditText.addTextChangedListener(this)
@@ -254,9 +269,13 @@ internal class FeedbackActivity : AppCompatActivity(), TextWatcher {
                 if (logsCheckBox.isChecked) {
                     DeviceUtils.getDeviceData(this)
                 } else {
-                    null
+                    hashMapOf()
                 },
-                config.extras()
+                if (logsCheckBox.isChecked) {
+                    config.extras
+                } else {
+                    hashMapOf()
+                }
             )
 
             val issue = gitHubRepository.createIssue(

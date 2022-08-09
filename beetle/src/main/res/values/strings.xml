@@ -15,17 +15,18 @@
     <string name="feedback_logs_title">System Logs</string>
     <string name="feedback_logs_action">Tap here to view</string>
 
-
-    <string name="common_error">Something went wrong</string>
     <string name="description">Description</string>
-    <string name="value">Value</string>
     <string name="key">Key</string>
+    <string name="value">Value</string>
     <string name="device_info">Device Info</string>
     <string name="custom_data">Custom Data</string>
     <string name="brand">Brand</string>
     <string name="model">Model</string>
     <string name="version_key">Android Version</string>
     <string name="version_value">Android %1$s (API %2$d)</string>
-    <string name="notification_channel_name">Beetle</string>
-    <string name="notification_channel_name_description">GitHub Issues</string>
+
+    <string name="common_error">Something went wrong</string>
+    <string name="notification_channel_name">Feedback Results</string>
+    <string name="notification_channel_name_description">Providing extra information
+        to users about their feedbacks</string>
 </resources>

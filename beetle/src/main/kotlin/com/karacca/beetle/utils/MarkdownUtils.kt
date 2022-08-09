@@ -15,33 +15,33 @@ internal object MarkdownUtils {
         context: Context,
         description: String,
         imageUrl: String?,
-        deviceData: Bundle?,
-        customData: Bundle?
+        deviceData: HashMap<String, Any>,
+        customData: HashMap<String, Any>
     ): String {
         val sb = StringBuilder()
         sb.appendLine("## ${context.getString(R.string.description)}")
         sb.appendLine(description)
 
-        if (deviceData != null) {
+        if (deviceData.isNotEmpty()) {
             sb.appendLine("## ${context.getString(R.string.device_info)}")
             val property = context.getString(R.string.key)
             val value = context.getString(R.string.value)
             sb.appendLine("|$property|$value|")
             sb.appendLine("|:-|:-|")
 
-            for (key in deviceData.keySet()) {
+            for (key in deviceData.keys) {
                 sb.appendLine("|$key|${deviceData[key]}|")
             }
         }
 
-        if (customData != null && !customData.isEmpty) {
+        if (customData.isNotEmpty()) {
             sb.appendLine("## ${context.getString(R.string.custom_data)}")
             val key = context.getString(R.string.key)
             val value = context.getString(R.string.value)
             sb.appendLine("|$key|$value|")
             sb.appendLine("|:-|:-|")
 
-            for (k in customData.keySet()) {
+            for (k in customData.keys) {
                 sb.appendLine("|$k|${customData[k]}|")
             }
         }

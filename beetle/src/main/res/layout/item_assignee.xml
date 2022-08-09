@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="4dp"
-        android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+        android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
         android:textColor="?attr/colorOnSurface"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view_title_divider"
