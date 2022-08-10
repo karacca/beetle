@@ -211,3 +211,5 @@ fabric.properties
 !/gradle/wrapper/gradle-wrapper.jar
 
 beetle/src/main/assets/beetle.pem
+sample
+sample-compose
