@@ -7,4 +7,4 @@ pluginManagement {
 }
 
 rootProject.name = "beetle"
-include(":beetle", "sample")
+include(":beetle")

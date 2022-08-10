@@ -111,7 +111,7 @@ object Beetle : ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListene
     }
 
     @Suppress("DEPRECATION")
-    private fun startFeedback() {
+    fun startFeedback() {
         Handler().postDelayed({
             val task = CollectDataTask(activity!!, this)
             task.execute(BitmapUtils.capture(activity!!.window.decorView.rootView))

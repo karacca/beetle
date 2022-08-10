@@ -6,17 +6,18 @@ plugins {
     id("com.android.library")
     kotlin("android")
     id("com.diffplug.spotless")
+    id("maven-publish")
 }
 
 android {
     compileSdk = 32
-
     defaultConfig {
         minSdk = 21
         targetSdk = 32
+        namespace = "com.karacca.beetle"
+        aarMetadata { minCompileSdk = 21 }
 
         val localProperties = gradleLocalProperties(rootDir)
-
         buildConfigField(
             "String",
             "GITHUB_APP_ID",
@@ -28,6 +29,12 @@ android {
             "FREE_IMAGE_API_KEY",
             "\"${localProperties.getProperty("FREE_IMAGE_API_KEY")}\""
         )
+    }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
     }
 
     buildTypes {
@@ -52,15 +59,29 @@ android {
     }
 }
 
-dependencies {
-    implementation("androidx.core:core-ktx:${rootProject.extra.get("coreKtxVersion")}")
-    implementation("androidx.appcompat:appcompat:${rootProject.extra.get("appCompatVersion")}")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
-    implementation("com.google.android.material:material:${rootProject.extra.get("materialVersion")}")
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "com.karacca"
+            artifactId = "beetle"
+            version = "2.0.0"
 
-    val coroutinesVersion = "1.6.2"
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
+}
+
+
+dependencies {
+    implementation("androidx.core:core-ktx:1.8.0")
+    implementation("androidx.appcompat:appcompat:1.4.2")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
+    implementation("com.google.android.material:material:1.6.1")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.2")
 
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
     implementation("com.squareup.okhttp3:okhttp")
