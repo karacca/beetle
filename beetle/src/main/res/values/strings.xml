@@ -1,36 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2022 Omer Karaca
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+          http://www.apache.org/licenses/LICENSE-2.0
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
 <resources>
-    <!-- common -->
-    <string name="azure_description">Azure DevOps</string>
-    <string name="github_description">GitHub</string>
-    <string name="gitlab_description">GitLab</string>
+    <string name="send_feedback_title">Send Feedback</string>
+    <string name="send_feedback_confirmation">Tap here to send feedback</string>
+    <string name="send_feedback_success_title">Thank you for your feedback #%1$d</string>
+    <string name="send_feedback_success_description">Tap here to see the details</string>
 
-    <!-- confirmation snackbar -->
-    <string name="confirmation_title">Did you just shake your phone?</string>
-    <string name="confirmation_content">Tap here to give feedback</string>
+    <string name="feedback_title">Title: </string>
+    <string name="feedback_assignees">Assignees: </string>
+    <string name="feedback_labels">Labels: </string>
+    <string name="feedback_title_hint">Give a short description</string>
+    <string name="feedback_description_hint">Describe the issue you are experiencing.
+        Please detail as much information as possible regarding your issue.</string>
+    <string name="feedback_screenshot_title">Screenshot</string>
+    <string name="feedback_screenshot_action">Tap here to highlight or hide info</string>
+    <string name="feedback_logs_title">System Logs</string>
+    <string name="feedback_logs_action">Tap here to view</string>
 
-    <!-- success snackbar -->
-    <string name="success_title">Issue created with id <b>#%1$d</b></string>
-    <string name="success_content">Tap here to see issue</string>
+    <string name="description">Description</string>
+    <string name="key">Key</string>
+    <string name="value">Value</string>
+    <string name="device_info">Device Info</string>
+    <string name="custom_data">Custom Data</string>
+    <string name="brand">Brand</string>
+    <string name="model">Model</string>
+    <string name="version_key">Android Version</string>
+    <string name="version_value">Android %1$s (API %2$d)</string>
 
-    <!-- error snackbar -->
-    <string name="error_title">There was a problem</string>
-    <string name="error_content">Please check agent configuration</string>
-
-    <!-- beetle activity -->
-    <string name="beetle_title">Create Issue</string>
-    <string name="beetle_issue_title">Title</string>
-    <string name="beetle_assignee_title">Assignees</string>
-    <string name="beetle_label_title">Labels</string>
-    <string name="beetle_issue_description_hint">Describe Issue</string>
-    <string name="beetle_issue_app_version_hint">Provide app version</string>
-    <string name="beetle_issue_title_warning">Please give a title</string>
-    <string name="beetle_issue_app_version_warning">Please provide an app version</string>
-
-    <!-- notification -->
-    <string name="notification_channel_id">beetle</string>
-    <string name="notification_channel_name">Beetle</string>
-    <string name="notification_channel_description">Bug report</string>
-    <string name="success_notification_title">Issue created with id #%1$d</string>
-    <string name="success_notification_content">Tap here to see issue</string>
-
+    <string name="common_error">Something went wrong</string>
+    <string name="notification_channel_name">Feedback Results</string>
+    <string name="notification_channel_name_description">Providing extra information
+        to users about their feedbacks</string>
 </resources>
