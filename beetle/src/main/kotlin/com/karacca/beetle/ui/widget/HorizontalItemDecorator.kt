@@ -39,6 +39,8 @@ internal class HorizontalItemDecorator(
 
         val position = parent.getChildLayoutPosition(view)
         val isFirstItem = position == 0
+
+        @Suppress("UNUSED_VARIABLE")
         val isLastItem = position == (parent.adapter?.itemCount ?: 1) - 1
 
         outRect.right = spacing

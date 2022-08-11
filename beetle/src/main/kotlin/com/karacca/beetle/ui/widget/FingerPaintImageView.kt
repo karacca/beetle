@@ -53,9 +53,11 @@ internal class FingerPaintImageView @JvmOverloads constructor(
 
     var inEditMode = false
 
+    @Suppress("DEPRECATION")
     private val defaultEmboss: EmbossMaskFilter by lazy {
         EmbossMaskFilter(floatArrayOf(1F, 1F, 1F), 0.4F, 6F, 3.5F)
     }
+
     private val defaultBlur: BlurMaskFilter by lazy {
         BlurMaskFilter(5F, BlurMaskFilter.Blur.NORMAL)
     }
@@ -290,6 +292,7 @@ internal class FingerPaintImageView @JvmOverloads constructor(
      * Returns true if any paths are currently drawn on the image, false otherwise.
      */
     fun isModified(): Boolean {
+        @Suppress("SENSELESS_COMPARISON")
         return if (paths != null) {
             paths.isNotEmpty()
         } else {
