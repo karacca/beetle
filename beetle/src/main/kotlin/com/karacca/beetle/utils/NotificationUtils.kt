@@ -23,7 +23,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import android.provider.Settings.Global.getString
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.karacca.beetle.R
@@ -54,7 +53,7 @@ internal object NotificationUtils {
         )
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_send)
+            .setSmallIcon(R.drawable.ic_beetle)
             .setContentTitle(context.getString(R.string.send_feedback_success_title, issue.number))
             .setContentText(context.getString(R.string.send_feedback_success_description))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
