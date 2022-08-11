@@ -20,11 +20,17 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Rect
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import android.view.PixelCopy
 import android.view.View
+import android.view.Window
 import androidx.annotation.WorkerThread
 import androidx.core.content.FileProvider
 import java.io.ByteArrayOutputStream
@@ -85,6 +91,40 @@ internal object BitmapUtils {
             }
         }
         return null
+    }
+
+    fun capture(window: Window, result: (Bitmap?) -> Unit) {
+        val view = window.decorView.rootView
+        if (view.width == 0 || view.height == 0) {
+            result.invoke(null)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+            val location = IntArray(2)
+            view.getLocationInWindow(location)
+
+            PixelCopy.request(
+                window,
+                Rect(location[0], location[1], location[0] + view.width, location[1] + view.height),
+                bitmap,
+                {
+                    result.invoke(
+                        if (it == PixelCopy.SUCCESS) {
+                            bitmap
+                        } else {
+                            null
+                        }
+                    )
+                },
+                Handler(Looper.getMainLooper())
+            )
+        } else {
+            val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.RGB_565)
+            val canvas = Canvas(bitmap)
+            view.draw(canvas)
+            result.invoke(bitmap)
+        }
     }
 
     fun capture(view: View): Bitmap? {

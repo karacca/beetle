@@ -37,10 +37,10 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.google.gson.Gson
+import com.karacca.beetle.Beetle
 import com.karacca.beetle.BeetleConfig
 import com.karacca.beetle.R
 import com.karacca.beetle.data.model.Collaborator
@@ -313,14 +313,7 @@ internal class FeedbackActivity : AppCompatActivity(), TextWatcher {
                 request.invoke()
                 loadingLayout.isVisible = false
             } catch (exception: Exception) {
-                findViewById<View>(android.R.id.content)?.let {
-                    Snackbar.make(
-                        it,
-                        it.context.getString(R.string.common_error),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
-
+                Beetle.showError()
                 loadingLayout.isVisible = false
             }
         }

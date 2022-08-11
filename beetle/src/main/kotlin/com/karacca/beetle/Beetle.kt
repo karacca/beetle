@@ -65,7 +65,13 @@ object Beetle : ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListene
         if (config.initialized && activity != null) {
             Handler().postDelayed({
                 val task = CollectDataTask(activity!!, this)
-                task.execute(BitmapUtils.capture(activity!!.window.decorView.rootView))
+                BitmapUtils.capture(activity!!.window) {
+                    if (it != null) {
+                        task.execute(it)
+                    } else {
+                        showError()
+                    }
+                }
             }, 100)
         }
     }
@@ -76,6 +82,16 @@ object Beetle : ShakeDetector.Listener, CollectDataTask.OnCollectDataTaskListene
             shake.start(activity)
         } else {
             shake.stop()
+        }
+    }
+
+    internal fun showError() {
+        activity?.findViewById<View>(android.R.id.content)?.let {
+            Snackbar.make(
+                it,
+                it.context.getString(R.string.common_error),
+                Snackbar.LENGTH_SHORT
+            ).show()
         }
     }
 
