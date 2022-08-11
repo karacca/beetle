@@ -19,7 +19,6 @@ package com.karacca.beetle.utils
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.karacca.beetle.Beetle
 
 /**
@@ -31,7 +30,7 @@ internal class LifecycleHandler(private val beetle: Beetle) :
     Application.ActivityLifecycleCallbacks {
 
     override fun onActivityResumed(p0: Activity) {
-        beetle.setActivity(p0 as? AppCompatActivity)
+        beetle.setActivity(p0)
     }
 
     override fun onActivityPaused(p0: Activity) {

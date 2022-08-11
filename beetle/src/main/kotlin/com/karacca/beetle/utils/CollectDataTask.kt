@@ -22,19 +22,19 @@ package com.karacca.beetle.utils
  */
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.AsyncTask
 import android.util.Log
 import androidx.annotation.WorkerThread
-import androidx.appcompat.app.AppCompatActivity
 import java.io.File
 
 @Suppress("DEPRECATION")
 @SuppressLint("StaticFieldLeak")
 internal class CollectDataTask(
-    private var activity: AppCompatActivity?,
+    private var activity: Activity?,
     private var listener: OnCollectDataTaskListener
 ) : AsyncTask<Bitmap, Void, Uri?>() {
 

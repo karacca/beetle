@@ -23,6 +23,12 @@ package com.karacca.beetle
 
 class BeetleConfig {
     val extras = hashMapOf<String, Any>()
+
+    var organization: String? = null
+    var repository: String? = null
+    val initialized: Boolean
+        get() = organization != null && repository != null
+
     var enableAssignees = true
     var enableLabels = true
 

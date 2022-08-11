@@ -122,11 +122,12 @@ internal class FeedbackActivity : AppCompatActivity(), TextWatcher {
         screenshot = intent.extras!!.getParcelable(ARG_SCREENSHOT)!!
         config = Gson().fromJson(intent.extras!!.getString(ARG_CONFIG)!!, BeetleConfig::class.java)
 
-        val organization = intent.extras!!.getString(ARG_ORGANIZATION)!!
-        val repository = intent.extras!!.getString(ARG_REPOSITORY)!!
-
-        gitHubRepository = GitHubRepository(getPrivateKey(application), organization, repository)
         imageRepository = ImageRepository()
+        gitHubRepository = GitHubRepository(
+            getPrivateKey(application),
+            config.organization!!,
+            config.repository!!
+        )
 
         toolbar = findViewById(R.id.toolbar)
         titleEditText = findViewById(R.id.edit_text_title)
@@ -327,9 +328,6 @@ internal class FeedbackActivity : AppCompatActivity(), TextWatcher {
 
     companion object {
         const val ARG_SCREENSHOT = "screenshot"
-        const val ARG_CUSTOM_DATA = "custom_data"
-        const val ARG_ORGANIZATION = "organization"
-        const val ARG_REPOSITORY = "repository"
         const val ARG_CONFIG = "arg_config"
     }
 }
