@@ -2,9 +2,6 @@
 
 Collect feedback & bug reports on your Android apps into your GitHub Issues.
 
-## Screenshots
-<img src="docs/images/feedback.png" alt="Feedback" width="216"/> <img src="docs/images/edit.png" alt="Feedback" width="216"/>
-
   ## License
 
     Copyright 2022 Omer Karaca
