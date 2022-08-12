@@ -1,10 +1,10 @@
-<h1><img src="docs/images/badge.png" alt="Beetle" width="32"/> Beetle</h1>
+<h1><img src="docs/images/badge.png" alt="Beetle" width="32"/> Beetle</h1> 
 
 Collect feedback & bug reports on your Android apps into your GitHub Issues.
 
-## Introduction
+## Screenshots
 
-Beetle is a lightweight Android library that enables your users to submit feedback directly inside your app to GitHub Issues. It works behind the scenes and collect some information about the device. It can be triggered either the shake gesture or manually.
+<img src="docs/images/feedback.png" alt="Feedback" width="270"/> <img src="docs/images/edit.png" alt="Edit" width="270"/>
 
 ## License
 
