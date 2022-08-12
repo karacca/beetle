@@ -2,7 +2,11 @@
 
 Collect feedback & bug reports on your Android apps into your GitHub Issues.
 
-  ## License
+## Introduction
+
+Beetle is a lightweight Android library that enables your users to submit feedback directly inside your app to GitHub Issues. It works behind the scenes and collect some information about the device. It can be triggered either the shake gesture or manually.
+
+## License
 
     Copyright 2022 Omer Karaca
 
