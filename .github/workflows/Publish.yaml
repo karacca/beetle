@@ -3,7 +3,7 @@ name: Publish
 on:
   create:
     tags:
-      - *
+      - '*'
 
 env:
   ORG_GRADLE_PROJECT_mavenCentralUsername: karacca
