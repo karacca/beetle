@@ -1,4 +1,6 @@
-<h1><img src="docs/images/badge.png" alt="Beetle" width="32"/> Beetle [WIP ⚙️]</h1> 
+<h1><img src="docs/images/badge.png" alt="Beetle" width="32"/> Beetle [WIP ⚙️]</h1>
+
+<img src="https://github.com/karacca/beetle/actions/workflows/Build.yaml/badge.svg" alt="Build" />
 
 Collect feedback & bug reports on your Android apps into your GitHub Issues.
 
