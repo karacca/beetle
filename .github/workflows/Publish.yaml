@@ -35,9 +35,6 @@ jobs:
       - name: Check lint
         run: ./gradlew lintDebug --stacktrace
 
-      - name: Add Version
-        run: echo "VERSION_NAME=${GITHUB_REF/refs\/tags\//}" >> gradle.properties
-
       - name: Publish
         run: ./gradlew publish
 
