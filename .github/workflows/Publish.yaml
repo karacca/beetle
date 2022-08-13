@@ -5,6 +5,11 @@ on:
     tags:
       - '*'
 
+env:
+  ORG_GRADLE_PROJECT_mavenCentralUsername: karacca
+  ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+  ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_KEY }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
