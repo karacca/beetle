@@ -6,11 +6,12 @@ plugins {
     id("com.android.library")
     kotlin("android")
     id("com.diffplug.spotless")
-    id("maven-publish")
+    id("com.vanniktech.maven.publish")
 }
 
 android {
     compileSdk = 32
+
     defaultConfig {
         minSdk = 21
         targetSdk = 32
@@ -29,12 +30,6 @@ android {
             "FREE_IMAGE_API_KEY",
             "\"${localProperties.getProperty("FREE_IMAGE_API_KEY")}\""
         )
-    }
-
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-        }
     }
 
     buildTypes {
@@ -58,21 +53,6 @@ android {
         }
     }
 }
-
-publishing {
-    publications {
-        register<MavenPublication>("release") {
-            groupId = "com.karacca"
-            artifactId = "beetle"
-            version = "2.0.0"
-
-            afterEvaluate {
-                from(components["release"])
-            }
-        }
-    }
-}
-
 
 dependencies {
     implementation("androidx.core:core-ktx:1.8.0")
