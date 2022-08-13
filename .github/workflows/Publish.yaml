@@ -1,9 +1,9 @@
-name: Release
+name: Publish
 
 on:
-  push:
+  create:
     tags:
-      - '*'
+      - *
 
 env:
   ORG_GRADLE_PROJECT_mavenCentralUsername: karacca
