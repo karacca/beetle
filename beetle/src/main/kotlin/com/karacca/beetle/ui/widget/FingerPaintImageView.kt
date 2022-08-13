@@ -152,12 +152,21 @@ internal class FingerPaintImageView @JvmOverloads constructor(
 
             val transformedPath = Path()
             val transformedPaint = Paint()
-            paths.forEach { (path, paint) ->
+
+            for ((path, paint) in paths) {
                 path.transform(inverse, transformedPath)
                 transformedPaint.set(paint)
                 transformedPaint.strokeWidth *= scale
                 canvas.drawPath(transformedPath, transformedPaint)
             }
+
+//            paths.forEach { (path, paint) ->
+//                path.transform(inverse, transformedPath)
+//                transformedPaint.set(paint)
+//                transformedPaint.strokeWidth *= scale
+//                canvas.drawPath(transformedPath, transformedPaint)
+//            }
+
             BitmapDrawable(resources, result)
         }
     }
