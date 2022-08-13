@@ -1,10 +1,9 @@
 name: Publish
 
 on:
-  create:
+  push:
     tags:
-      - '*'
-
+      - '**'
 env:
   ORG_GRADLE_PROJECT_mavenCentralUsername: karacca
   ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
