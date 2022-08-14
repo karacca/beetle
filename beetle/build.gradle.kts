@@ -6,7 +6,8 @@ plugins {
     id("com.android.library")
     kotlin("android")
     id("com.diffplug.spotless")
-    id("com.vanniktech.maven.publish")
+    id("maven-publish")
+    id("signing")
 }
 
 android {
@@ -99,5 +100,69 @@ spotless {
         target("**/*.xml")
         targetExclude("**/build/**/*.xml")
         licenseHeaderFile(rootProject.file("spotless/copyright.xml"), "(<[^!?])")
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("beetle") {
+
+                from(components.getByName("release"))
+
+                groupId = "com.karacca"
+                artifactId = "beetle"
+                version = "2.0.0"
+
+                pom {
+                    name.set("Beetle")
+                    description.set(
+                        "Beetle is an Android library for collecting feedback & " +
+                            "bug reports on your Android apps into your GitHub Issues."
+                    )
+                    url.set("https://github.com/karacca/beetle")
+
+                    licenses {
+                        license {
+                            name.set("The Apache License, Version 2.0")
+                            url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id.set("karacca")
+                            name.set("Omer Karaca")
+                            email.set("omerkaracca@gmail.com")
+                        }
+                    }
+
+                    scm {
+                        connection.set("scm:git:git://github.com/karacca/beetle.git")
+                        developerConnection.set("scm:git:ssh://github.com/karacca/beetle.git")
+                        url.set("https://github.com/karacca/beetle/")
+                    }
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+                authentication {
+                    credentials {
+                        username = "karacca"
+                        password = System.getenv("MAVEN_PASSWORD")
+                    }
+                }
+            }
+        }
+    }
+
+    signing {
+        val signingKey: String? by project
+        val signingPassword: String? by project
+        useInMemoryPgpKeys(signingKey, signingPassword)
+        sign(publishing.publications.getByName("beetle"))
     }
 }
