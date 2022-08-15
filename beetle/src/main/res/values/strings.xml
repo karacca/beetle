@@ -31,6 +31,7 @@
     <string name="description">Description</string>
     <string name="key">Key</string>
     <string name="value">Value</string>
+    <string name="build_config">Build Config</string>
     <string name="device_info">Device Info</string>
     <string name="custom_data">Custom Data</string>
     <string name="brand">Brand</string>

@@ -54,6 +54,7 @@ import com.karacca.beetle.ui.widget.HorizontalItemDecorator
 import com.karacca.beetle.utils.DeviceUtils
 import com.karacca.beetle.utils.MarkdownUtils
 import com.karacca.beetle.utils.NotificationUtils
+import com.karacca.beetle.utils.ReflectionUtils
 import kotlinx.coroutines.launch
 import org.bouncycastle.util.io.pem.PemReader
 import java.io.BufferedReader
@@ -282,6 +283,7 @@ internal class FeedbackActivity : AppCompatActivity(), TextWatcher {
                 this,
                 description,
                 image?.image?.url,
+                ReflectionUtils.getBuildConfigValues(this),
                 if (logsCheckBox.isChecked) {
                     DeviceUtils.getDeviceData(this)
                 } else {

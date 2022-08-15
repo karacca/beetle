@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.0.1]
+
+- Add BuildConfig fields
+
 ## [2.0.0] - August 15, 2022
 
 - Beetle is completely refactored

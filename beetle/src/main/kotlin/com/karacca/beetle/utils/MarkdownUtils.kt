@@ -30,12 +30,25 @@ internal object MarkdownUtils {
         context: Context,
         description: String,
         imageUrl: String?,
+        buildConfigFields: HashMap<String, Any>,
         deviceData: HashMap<String, Any>,
         customData: HashMap<String, Any>
     ): String {
         val sb = StringBuilder()
         sb.appendLine("## ${context.getString(R.string.description)}")
         sb.appendLine(description)
+
+        if (buildConfigFields.isNotEmpty()) {
+            sb.appendLine("## ${context.getString(R.string.build_config)}")
+            val property = context.getString(R.string.key)
+            val value = context.getString(R.string.value)
+            sb.appendLine("|$property|$value|")
+            sb.appendLine("|:-|:-|")
+
+            for (key in buildConfigFields.keys) {
+                sb.appendLine("|$key|${buildConfigFields[key]}|")
+            }
+        }
 
         if (deviceData.isNotEmpty()) {
             sb.appendLine("## ${context.getString(R.string.device_info)}")
