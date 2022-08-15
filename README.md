@@ -1,6 +1,8 @@
 <h1><img src="docs/images/badge.png" alt="Beetle" width="32"/> Beetle [WIP ⚙️]</h1>
 
-<img src="https://github.com/karacca/beetle/actions/workflows/Build.yaml/badge.svg" alt="Build" />
+[![Build](https://github.com/karacca/beetle/actions/workflows/Build.yaml/badge.svg)](https://github.com/karacca/beetle/actions/workflows/Build.yaml)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.karacca/beetle/badge.svg?style=flat)](https://search.maven.org/artifact/com.karacca/beetle)
+[![GitHub License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
 
 Collect feedback & bug reports on your Android apps into your GitHub Issues.
 
@@ -8,17 +10,16 @@ Collect feedback & bug reports on your Android apps into your GitHub Issues.
 
 <img src="docs/images/feedback.png" alt="Feedback" width="270"/> <img src="docs/images/edit.png" alt="Edit" width="270"/>
 
-## Download
+## Download & Quick Start
 
-Beetle is available on `mavenCentral`
+1. Install [Beetle](https://github.com/marketplace/beetle-app) to your GitHub repository so it can take action on your behalf and create Issues
+2. Add Beetle dependency to your Android app
 ```kotlin
-implementation("com.karacca:beetle:2.0.0")
+dependencies {
+    implementation("com.karacca:beetle:2.0.0")
+}
 ```
-
-## Quick Start
-
-1. Install [Beetle GitHub App](https://github.com/marketplace/beetle-app) to your repository so Beetle can take action on your behalf and create Issues
-2. Initialize Beetle inside your Application
+3. Initialize Beetle inside your Application
 ```kotlin
 class MyApplication : Application() {
 
@@ -28,7 +29,7 @@ class MyApplication : Application() {
     }
 }
 ```
-3. [Optional] Make configurations and add additional data
+4. [Optional] Make configurations and add additional data
 ```kotlin
 Beetle.configure {
     enableAssignees = true
