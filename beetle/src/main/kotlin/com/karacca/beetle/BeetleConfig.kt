@@ -22,7 +22,7 @@ package com.karacca.beetle
  */
 
 class BeetleConfig {
-    val extras = hashMapOf<String, Any>()
+    val userAttributes = arrayListOf<Pair<String, Any>>()
 
     var organization: String? = null
     var repository: String? = null
@@ -33,22 +33,22 @@ class BeetleConfig {
     var enableLabels = true
 
     fun key(key: String, value: String) {
-        extras[key] = value
+        userAttributes.add(key to value)
     }
 
     fun key(key: String, value: Boolean) {
-        extras[key] = value
+        userAttributes.add(key to value)
     }
 
     fun key(key: String, value: Double) {
-        extras[key] = value
+        userAttributes.add(key to value)
     }
 
     fun key(key: String, value: Float) {
-        extras[key] = value
+        userAttributes.add(key to value)
     }
 
     fun key(key: String, value: Int) {
-        extras[key] = value
+        userAttributes.add(key to value)
     }
 }

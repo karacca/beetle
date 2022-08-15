@@ -54,7 +54,6 @@ import com.karacca.beetle.ui.widget.HorizontalItemDecorator
 import com.karacca.beetle.utils.DeviceUtils
 import com.karacca.beetle.utils.MarkdownUtils
 import com.karacca.beetle.utils.NotificationUtils
-import com.karacca.beetle.utils.ReflectionUtils
 import kotlinx.coroutines.launch
 import org.bouncycastle.util.io.pem.PemReader
 import java.io.BufferedReader
@@ -162,12 +161,14 @@ internal class FeedbackActivity : AppCompatActivity(), TextWatcher {
         }
 
         logsCardView.setOnClickListener {
+            val data = DeviceUtils.getDeviceData(this) +
+                DeviceUtils.getApplicationData(this) +
+                config.userAttributes
+
             MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.feedback_logs_title)
                 .setItems(
-                    (DeviceUtils.getDeviceData(this) + config.extras).map {
-                        "${it.key}: ${it.value}"
-                    }.toTypedArray()
+                    data.map { "${it.first}: ${it.second}" }.toTypedArray()
                 ) { _, _ -> }
                 .show()
         }
@@ -283,16 +284,15 @@ internal class FeedbackActivity : AppCompatActivity(), TextWatcher {
                 this,
                 description,
                 image?.image?.url,
-                ReflectionUtils.getBuildConfigValues(this),
                 if (logsCheckBox.isChecked) {
-                    DeviceUtils.getDeviceData(this)
+                    DeviceUtils.getApplicationData(this) + DeviceUtils.getDeviceData(this)
                 } else {
-                    hashMapOf()
+                    arrayListOf()
                 },
                 if (logsCheckBox.isChecked) {
-                    config.extras
+                    config.userAttributes
                 } else {
-                    hashMapOf()
+                    arrayListOf()
                 }
             )
 

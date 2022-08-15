@@ -30,47 +30,34 @@ internal object MarkdownUtils {
         context: Context,
         description: String,
         imageUrl: String?,
-        buildConfigFields: HashMap<String, Any>,
-        deviceData: HashMap<String, Any>,
-        customData: HashMap<String, Any>
+        appAndDeviceData: List<Pair<String, Any>>,
+        userAttributes: List<Pair<String, Any>>
     ): String {
         val sb = StringBuilder()
         sb.appendLine("## ${context.getString(R.string.description)}")
         sb.appendLine(description)
 
-        if (buildConfigFields.isNotEmpty()) {
-            sb.appendLine("## ${context.getString(R.string.build_config)}")
+        if (appAndDeviceData.isNotEmpty()) {
+            sb.appendLine("## ${context.getString(R.string.app_and_device_data)}")
             val property = context.getString(R.string.key)
             val value = context.getString(R.string.value)
             sb.appendLine("|$property|$value|")
             sb.appendLine("|:-|:-|")
 
-            for (key in buildConfigFields.keys) {
-                sb.appendLine("|$key|${buildConfigFields[key]}|")
+            for ((k, v) in appAndDeviceData) {
+                sb.appendLine("|**$k**|$v|")
             }
         }
 
-        if (deviceData.isNotEmpty()) {
-            sb.appendLine("## ${context.getString(R.string.device_info)}")
-            val property = context.getString(R.string.key)
-            val value = context.getString(R.string.value)
-            sb.appendLine("|$property|$value|")
-            sb.appendLine("|:-|:-|")
-
-            for (key in deviceData.keys) {
-                sb.appendLine("|$key|${deviceData[key]}|")
-            }
-        }
-
-        if (customData.isNotEmpty()) {
-            sb.appendLine("## ${context.getString(R.string.custom_data)}")
+        if (userAttributes.isNotEmpty()) {
+            sb.appendLine("## ${context.getString(R.string.user_attributes)}")
             val key = context.getString(R.string.key)
             val value = context.getString(R.string.value)
             sb.appendLine("|$key|$value|")
             sb.appendLine("|:-|:-|")
 
-            for (k in customData.keys) {
-                sb.appendLine("|$k|${customData[k]}|")
+            for ((k, v) in userAttributes) {
+                sb.appendLine("|**$k**|$v|")
             }
         }
 
