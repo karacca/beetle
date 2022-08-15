@@ -11,7 +11,7 @@ Collect feedback & bug reports on your Android apps into your GitHub Issues.
 Beetle is a lightweight Android library that enables your users to submit feedback from their applications. It uses GitHub API and collect users feedbacks as GitHub Issues like [this one](https://github.com/karacca/beetle/issues/30).
 
 * Shake gesture detection for starting a feedback process
-* Collect information about the device. You can also add extra information you may add using `Beetle.configure { put() }`
+* Collect information about the device. You can also add extra information you may add using `Beetle.configure()`
 * Users can add Title & Description about the Issue they are having
 * Users can assign developers & labels to the Issue
 * Current screenshot will be added to the Issue and also can be edited by the user
@@ -45,7 +45,6 @@ class MyApplication : Application() {
 Beetle.configure {
     enableAssignees = true
     enableLabels = true
-    key("version", BuildConfig.VERSION_CODE)
     key("user_id", user.id)
 }
 ```
