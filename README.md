@@ -10,7 +10,7 @@ Collect feedback & bug reports on your Android apps into your GitHub Issues.
 
 ## Download
 
-Beetle is available on mavenCentral.
+Beetle is available on `mavenCentral`
 ```kotlin
 implementation("com.karacca:beetle:2.0.0")
 ```
