@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.0.1] - In progress
+## [2.0.1] - August 18, 2022
 
 - Add App ID, App Version and BuildType fields
 
