@@ -27,7 +27,7 @@ Beetle is a lightweight Android library that enables your users to submit feedba
 2. Add Beetle dependency to your Android app
 ```kotlin
 dependencies {
-    implementation("com.karacca:beetle:2.0.0")
+    implementation("com.karacca:beetle:$latest_version")
 }
 ```
 3. Initialize Beetle inside your Application
