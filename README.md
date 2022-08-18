@@ -1,4 +1,4 @@
-<h1><img src="docs/images/badge.png" alt="Beetle" width="32"/> Beetle [WIP ⚙️]</h1>
+<h1><img src="docs/images/badge.png" alt="Beetle" width="32"/> Beetle</h1>
 
 [![Build](https://github.com/karacca/beetle/actions/workflows/Build.yaml/badge.svg)](https://github.com/karacca/beetle/actions/workflows/Build.yaml)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.karacca/beetle/badge.svg)](https://search.maven.org/artifact/com.karacca/beetle)
