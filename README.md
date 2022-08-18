@@ -1,8 +1,8 @@
 <h1><img src="docs/images/badge.png" alt="Beetle" width="32"/> Beetle</h1>
 
-[![Build](https://github.com/karacca/beetle/actions/workflows/Build.yaml/badge.svg)](https://github.com/karacca/beetle/actions/workflows/Build.yaml)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.karacca/beetle/badge.svg)](https://search.maven.org/artifact/com.karacca/beetle)
-[![GitHub License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![Build](https://img.shields.io/github/workflow/status/karacca/beetle/Build)](https://github.com/karacca/beetle/actions/workflows/Build.yaml)
+[![Maven Central](https://img.shields.io/maven-central/v/com.karacca/beetle)](https://search.maven.org/artifact/com.karacca/beetle)
+[![License](https://img.shields.io/github/license/karacca/beetle)](https://www.apache.org/licenses/LICENSE-2.0)
 
 Collect feedback & bug reports on your Android apps into your GitHub Issues.
 
