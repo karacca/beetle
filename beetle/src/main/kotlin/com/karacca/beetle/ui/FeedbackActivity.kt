@@ -96,7 +96,7 @@ internal class FeedbackActivity : AppCompatActivity(), TextWatcher {
 
     private val openEditScreenshotActivity = registerForActivityResult(
         object : ActivityResultContract<Uri, Uri?>() {
-            override fun createIntent(context: Context, input: Uri?): Intent {
+            override fun createIntent(context: Context, input: Uri): Intent {
                 return Intent(context, EditScreenshotActivity::class.java).apply {
                     putExtra(ARG_SCREENSHOT, input)
                 }

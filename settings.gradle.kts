@@ -8,3 +8,4 @@ pluginManagement {
 
 rootProject.name = "beetle"
 include(":beetle")
+include(":sample", ":sample-compose")

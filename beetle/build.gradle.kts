@@ -11,11 +11,11 @@ plugins {
 }
 
 android {
-    compileSdk = 32
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 32
+        targetSdk = 33
         namespace = "com.karacca.beetle"
         aarMetadata { minCompileSdk = 21 }
 
@@ -56,18 +56,18 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.4.2")
+    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.appcompat:appcompat:1.5.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
     implementation("com.google.android.material:material:1.6.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:logging-interceptor")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("io.coil-kt:coil:2.1.0")
+    implementation("io.coil-kt:coil:2.2.1")
     api("io.jsonwebtoken:jjwt-api:0.11.5")
     implementation("org.bouncycastle:bcpkix-jdk18on:1.71")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
@@ -112,7 +112,7 @@ afterEvaluate {
 
                 groupId = "com.karacca"
                 artifactId = "beetle"
-                version = "2.0.1"
+                version = System.getenv("BEETLE_VERSION")
 
                 pom {
                     name.set("Beetle")
