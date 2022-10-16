@@ -8,7 +8,7 @@ env:
   ORG_GRADLE_PROJECT_signingKey: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGKEY }}
   ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGPASSWORD }}
   MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
-  BEETLE_VERSION: ${GITHUB_REF##*/}
+  BEETLE_VERSION: ${{ GITHUB_REF##*/ }}
 
 jobs:
   publish:
