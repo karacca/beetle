@@ -112,7 +112,7 @@ afterEvaluate {
 
                 groupId = "com.karacca"
                 artifactId = "beetle"
-                version = System.getenv("BEETLE_VERSION")
+                version = System.getenv("BEETLE_VERSION") ?: "2.0.2"
 
                 pom {
                     name.set("Beetle")
